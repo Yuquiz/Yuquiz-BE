@@ -9,16 +9,12 @@ const connection = mysql.createPool({
     database: process.env.DB_NAME
 })
 
-const query = (sql, data = []) => {
-    if(data.length != 0) {
-        sql = mysql.format(sql, data);
-    }
-
-    connection.query(sql, (err, res) => {
-        if(err) {
-            console.log(err.msg);
+export default {
+    query: function(sql, data = [], callback) {
+        if(data.length != 0) {
+            sql = mysql.format(sql, data);
         }
-    });
-}
 
-export default query;
+        connection.query(sql, callback);
+    }
+}
