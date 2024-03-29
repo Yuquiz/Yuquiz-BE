@@ -9,7 +9,7 @@ const connection = mysql.createPool({
     database: process.env.DB_NAME
 })
 
-const query = (sql, data) => {
+const query = (sql, data = []) => {
     if(data.length != 0) {
         sql = mysql.format(sql, data);
     }

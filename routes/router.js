@@ -10,7 +10,6 @@ ROUTER.use("/user", user);
 ROUTER.use("/quiz", quiz);
 ROUTER.use("/question", question);
 ROUTER.use("/qchoice", questionChoice);
-ROUTER.use("/qanswer", answer);
 
 export default ROUTER;
 
