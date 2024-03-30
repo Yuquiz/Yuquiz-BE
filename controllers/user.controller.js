@@ -23,12 +23,7 @@ export default {
 
     edit: function(req, res) {
         if (utils.isInvalidID(req.params.id, res)) return;
-
-        if(Object.keys(req.body).length == 0) {
-            res.status(400);
-            res.send({ msg: "no data passed for this endpoint to work on" })
-            return;
-        }
+        if (utils.isBodyEmpty(req.body, res)) return;
 
         const isAllKeyValid = Object.keys(req.body)
                     .reduce((stillValid, key) => stillValid && ["name"].includes(key), true);
