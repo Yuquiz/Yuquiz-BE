@@ -15,5 +15,17 @@ export default {
             return true;
         }
         return false;
+    },
+
+    hasUnexpectedKey: (bodyKeys, fillableKeys, res) => {
+        const isAllKeyValid = bodyKeys.reduce((stillValid, key) => (
+                                stillValid && fillableKeys.includes(key)
+                            ), true)
+        if(!isAllKeyValid) {
+            res.status(400);
+            res.send({msg: `this endpoint only expects [${fillableKeys.join(", ")}]`});
+            return true;
+        }
+        return false;
     }
 }

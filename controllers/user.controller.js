@@ -24,14 +24,7 @@ export default {
     edit: function(req, res) {
         if (utils.isInvalidID(req.params.id, res)) return;
         if (utils.isBodyEmpty(req.body, res)) return;
-
-        const isAllKeyValid = Object.keys(req.body)
-                    .reduce((stillValid, key) => stillValid && ["name"].includes(key), true);
-        if(!isAllKeyValid) {
-            res.status(400);
-            res.send({msg:"this endpoint only expects `name`"});
-            return
-        }
+        if (utils.hasUnexpectedKey(Object.keys(req.body), ["name"], res)) return;
 
         if(req.body["name"] == undefined) {
             res.status(400);

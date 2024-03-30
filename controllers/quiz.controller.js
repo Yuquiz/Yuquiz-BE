@@ -48,18 +48,7 @@ export default {
     edit: function(req, res) {
         if (utils.isInvalidID(req.params.id, res)) return;
         if (utils.isBodyEmpty(req.body, res)) return;
-
-        const isAllKeyValid = Object.keys(req.body)
-                    .reduce((stillValid, key) => (
-                                stillValid 
-                                && ["duration", "name"].includes(key)
-                            ), true
-                    );
-        if(!isAllKeyValid) {
-            res.status(400);
-            res.send({msg:"this endpoint only expects `duration` and `name"});
-            return
-        }
+        if (utils.hasUnexpectedKey(Object.keys(req.body), ["duration", "name"], res)) return;
 
         // Ignore when doesn't exist
         const durationTypeCorrect = (req.body["duration"] == undefined 
