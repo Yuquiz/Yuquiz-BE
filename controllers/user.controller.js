@@ -26,6 +26,12 @@ export default {
     },
 
     edit: function(req, res) {
+        if(isNaN(req.params.id)) {
+            res.status(400);
+            res.send({ msg: "id should be a number" })
+            return;
+        }
+
         if(req.body["name"] == undefined) {
             res.status(400);
             res.send({ msg: "No required data was given" })

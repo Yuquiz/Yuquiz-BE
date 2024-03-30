@@ -50,6 +50,12 @@ export default {
     },
 
     edit: function(req, res) {
+        if(isNaN(req.params.id)) {
+            res.status(400);
+            res.send({ msg: "id should be a number" })
+            return;
+        }
+
         // Ignore when doesn't exist
         const dataTypeCorrect = (req.body["duration"] == undefined 
                             || !isNaN(req.body["duration"]));
