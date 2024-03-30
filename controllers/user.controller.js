@@ -8,10 +8,7 @@ export default {
     getOne: function(req, res) {
         if(isNaN(req.params.id)) {
             res.status(400);
-            res.send({
-                status: -1,
-                msg: "id should be a number"
-            })
+            res.send({ msg: "id should be a number" })
             return;
         }
 
@@ -21,10 +18,7 @@ export default {
     store: function(req, res) {
         if(req.body["name"] == undefined) {
             res.status(400);
-            res.send({
-                status: -1,
-                msg: "No required data was given"
-            })
+            res.send({ msg: "No required data was given" })
             return;
         }
 
@@ -33,10 +27,8 @@ export default {
 
     edit: function(req, res) {
         if(req.body["name"] == undefined) {
-            res.send({
-                status: 0,
-                msg: "Nothing to do"
-            });
+            res.status(400);
+            res.send({ msg: "No required data was given" })
             return;
         }
 
@@ -46,10 +38,7 @@ export default {
     destroy: function(req, res) {
         if(isNaN(req.params.id)) {
             res.status(400);
-            res.send({
-                status: -1,
-                msg: "id should be a number"
-            })
+            res.send({ msg: "id should be a number" })
             return;
         }
 
