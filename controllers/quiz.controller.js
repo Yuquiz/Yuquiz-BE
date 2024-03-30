@@ -1,4 +1,4 @@
-import model from "../models/quiz.model.js"
+import model from "../models/Quizzes.js"
 
 export default {
     index: function(req, res) {

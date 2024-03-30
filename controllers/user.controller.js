@@ -1,4 +1,4 @@
-import model from "../models/user.model.js";
+import model from "../models/Users.js";
 
 export default {
     index: function(req, res) {
