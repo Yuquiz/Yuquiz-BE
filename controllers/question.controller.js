@@ -1,21 +1,80 @@
+import model from "../models/Questions.js";
+
 export default {
     index: function(req, res) {
-        res.send("Get all");
+        model.getAll(res);
     },
 
     getOne: function(req, res) {
-        res.send(`Get ${req.params.id}`);
+        if(isNaN(req.params.id)) {
+            res.status(400);
+            res.send({ msg: "id should be a number" })
+            return;
+        }
+
+        model.getById(req.params.id, res);
     },
 
     store: function(req, res) {
-        res.send(`Store`);
+        const dataComplete = (
+            req.body["quiz_ID"] != undefined
+            && req.body["text"] != undefined
+            && req.body["point"] != undefined
+        )
+
+        const dataTypeCorrect = (
+            !isNaN(req.body["quiz_ID"])
+            && !isNaN(req.body["point"])
+        )
+
+        if( !(dataComplete && dataTypeCorrect) ) {
+            const errorMsg = [];
+            if(!dataComplete) {
+                errorMsg.push("'quiz_ID', 'text', and 'point' was not all provided");
+            } 
+
+            if(!dataTypeCorrect) {
+                errorMsg.push("'quiz_ID' and 'point' should be a number");
+            }
+
+            res.status(400);
+            res.send({msg: errorMsg});
+            return;
+        }
+
+        const data = [
+            ["quiz_ID", "text", "point"],
+            [req.body["quiz_ID"], req.body["text"], req.body["point"]]
+        ]
+        model.store(data, res);
     },
 
     edit: function(req, res) {
-        res.send(`Edit ${req.params.id}`);
+        if(isNaN(req.params.id)) {
+            res.status(400);
+            res.send({ msg: "id should be a number" })
+            return;
+        }
+
+        // Ignore when doesn't exist
+        const pointTypeCorrect = (req.body["point"] == undefined 
+                            || !isNaN(req.body["point"]));
+        if( !pointTypeCorrect ) {
+            res.status(400);
+            res.send({msg: "'point' should be a number"});
+            return;
+        }
+
+        model.edit(req.params.id, req.body, res);
     },
 
     destroy: function(req, res) {
-        res.send(`Delete ${req.params.id}`);
+        if(isNaN(req.params.id)) {
+            res.status(400);
+            res.send({ msg: "id should be a number" })
+            return;
+        }
+
+        model.destroy(req.params.id);
     }
 }
