@@ -44,14 +44,14 @@ export default {
     },
 
     edit: function(id, newData, res) {
-        db.query("UPDATE Users SET name=? WHERE id=?", [...newData, id], (err, result) => {
+        db.query("UPDATE Users SET ? WHERE id=?", [newData, id], (err, result) => {
             if(err) {
                 res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
                 return;
             } 
 
             res.send({
-                msg: `User data with id: ${id} updated`,
+                msg: (result.affectedRows > 0?  `User data with id: ${id} updated`: "Nothing to update"),
             });
         });
         

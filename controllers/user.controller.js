@@ -32,7 +32,7 @@ export default {
             return;
         }
 
-        model.edit(req.params.id, [req.body["name"]], res);
+        model.edit(req.params.id, req.body, res);
     },
 
     destroy: function(req, res) {
