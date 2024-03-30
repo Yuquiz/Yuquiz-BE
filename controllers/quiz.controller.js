@@ -57,15 +57,11 @@ export default {
         }
 
         // Ignore when doesn't exist
-        const dataTypeCorrect = (req.body["duration"] == undefined 
+        const durationTypeCorrect = (req.body["duration"] == undefined 
                             || !isNaN(req.body["duration"]));
-        if( !dataTypeCorrect ) {
-            const errorMsg = [];
-
-            if(!dataTypeCorrect) { errorMsg.push("'duration' should be a number"); }
-
+        if( !durationTypeCorrect ) {
             res.status(400);
-            res.send({msg: errorMsg});
+            res.send({msg: "'duration' should be a number"});
             return;
         }
 
