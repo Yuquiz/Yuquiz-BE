@@ -1,17 +1,13 @@
 import model from "../models/AnswerChoices.js";
+import utils from "./utils.js"
 
 export default {
     index: function(req, res) {
-        model.getOne(res);
+        model.getAll(res);
     },
 
     getOne: function(req, res) {
-        if(isNaN(req.params.id)) {
-            res.status(400);
-            res.send({ msg: "id should be a number" })
-            return;
-        }
-
+        if (utils.isInvalidID(req.params.id, res)) return;
         model.getById(req.params.id, res);
     },
 
@@ -54,10 +50,23 @@ export default {
     },
 
     edit: function(req, res) {
-        if(isNaN(req.params.id)) {
+        if (utils.isInvalidID(req.params.id, res)) return;
+
+        if(Object.keys(req.body).length == 0) {
             res.status(400);
-            res.send({ msg: "id should be a number" })
+            res.send({ msg: "no data passed for this endpoint to work on" })
             return;
+        }
+
+        const isAllKeyValid = Object.keys(req.body)
+                    .reduce((stillValid, key) => (
+                                stillValid && ["isCorrect", "text"].includes(key)
+                            ), true
+                    );
+        if(!isAllKeyValid) {
+            res.status(400);
+            res.send({msg:"this endpoint only expects `isCorrect` and `text"});
+            return
         }
 
         // Ignore when doesn't exist
@@ -78,12 +87,7 @@ export default {
     },
 
     destroy: function(req, res) {
-        if(isNaN(req.params.id)) {
-            res.status(400);
-            res.send({ msg: "id should be a number" })
-            return;
-        }
-
+        if (utils.isInvalidID(req.params.id, res)) return;
         model.destroy(req.params.id, res);
     }
 }
