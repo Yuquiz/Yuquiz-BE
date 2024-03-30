@@ -1,5 +1,5 @@
 import express from "express";
-import controller from "../controllers/questionChoice.controller.js";
+import controller from "../controllers/answerChoice.controller.js";
 const ROUTER = express.Router();
 
 ROUTER.get("/", controller.index); // Get all

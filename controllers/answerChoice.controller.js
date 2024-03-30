@@ -1,4 +1,4 @@
-import model from "../models/QuestionChoices.js";
+import model from "../models/AnswerChoices.js";
 
 export default {
     index: function(req, res) {
