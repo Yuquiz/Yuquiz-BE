@@ -51,7 +51,7 @@ export default {
             } 
 
             res.send({
-                msg: (result.affectedRows > 0?  `User data with id: ${id} updated`: "Nothing to update"),
+                msg: (result.affectedRows > 0?  `Updated User with id: ${id}`: "Nothing to update"),
             });
         });
         

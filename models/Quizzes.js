@@ -51,7 +51,7 @@ export default {
             } 
 
             res.send({ 
-                msg: (result.affectedRows > 0?  `Deleted quiz with id:${id}`: "Nothing to delete")
+                msg: (result.affectedRows > 0?  `Updated quiz with id:${id}`: "Nothing to update")
             });
         });
         
