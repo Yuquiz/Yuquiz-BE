@@ -2,41 +2,73 @@ import model from "../models/Users.js";
 import utils from "./utils.js"
 
 export default {
-    index: function(req, res) {
-        model.getAll(res);
+    index: async function(req, res) {
+        await model.getAll()
+            .then((result) => {
+                return res.send({
+                    msg: "User data fetch success",
+                    data: result
+                });
+            })
+            .catch((err) => {
+                return res.status(500).send({msg: err })
+            });
     },
 
-    getOne: function(req, res) {
+    getOne: async function(req, res) {
         if (utils.isInvalidID(req.params.id, res)) return;
-        model.getById(req.params.id, res);
+        await model.getById(req.params.id)
+            .then((result) => {
+                return res.send({
+                    msg: "User data fetch success",
+                    data: result,
+                });
+            })
+            .catch((err) => {
+                return res.status(500).send({msg: err })
+            });
     },
 
-    store: function(req, res) {
+    store: async function(req, res) {
         if(req.body["name"] == undefined) {
-            res.status(400);
-            res.send({ msg: "No required data was given" })
-            return;
+            return res.status(400).send({ msg: "No required data was given" })
         }
 
-        model.store([req.body["name"]], res);
+        await model.store([req.body["name"]])
+            .then((result) => {
+                return res.send({ msg: `User created with id ${result}` })
+            })
+            .catch((err) => {
+                return res.status(500).send({msg: err});
+            });
     },
 
-    edit: function(req, res) {
+    edit: async function(req, res) {
         if (utils.isInvalidID(req.params.id, res)) return;
         if (utils.isBodyEmpty(req.body, res)) return;
         if (utils.hasUnexpectedKey(Object.keys(req.body), ["name"], res)) return;
 
         if(req.body["name"] == undefined) {
-            res.status(400);
-            res.send({ msg: "No required data was given" })
-            return;
+            return res.status(400).send({ msg: "No required data was given" })
         }
 
-        model.edit(req.params.id, req.body, res);
+        await model.edit(req.params.id, req.body)
+            .then((result) => {
+                return res.send({ msg: result })
+            })
+            .catch((err) => {
+                return res.status(500).send({msg: err})
+            });
     },
 
-    destroy: function(req, res) {
+    destroy: async function(req, res) {
         if (utils.isInvalidID(req.params.id, res)) return;
-        model.destroy(req.params.id, res);
+        await model.destroy(req.params.id)
+            .then((result) => {
+                return res.send({msg: result});
+            })
+            .catch((err) => {
+                return res.status(500).send({msg: err });
+            });
     }
 }
