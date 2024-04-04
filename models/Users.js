@@ -4,9 +4,7 @@ export default {
     getAll: function() {
         return new Promise((resolve, reject) => {
             db.query("SELECT * FROM Users", [], (err, result) => {
-                if(err) {
-                    reject(`Something went wrong (${err.errno} - ${err.code})`); 
-                }
+                if(err) { reject(`Something went wrong (${err.errno} - ${err.code})`); }
 
                 resolve(result);
             });
@@ -16,9 +14,7 @@ export default {
     getById: function(id) {
         return new Promise((resolve, reject) => {
             db.query("SELECT * FROM Users WHERE id=?", [id], (err, result) => {
-                if(err) {
-                    reject(`Something went wrong (${err.errno} - ${err.code})`)
-                } 
+                if(err) { reject(`Something went wrong (${err.errno} - ${err.code})`) } 
 
                 resolve(result[0])
             });
@@ -27,10 +23,8 @@ export default {
 
     store: function(data) {
         return new Promise((resolve, reject) => {
-            db.query("INSERT INTO Users(name) VALUES (?)", data, (err, result) => {
-                if(err) {
-                    reject(`Something went wrong (${err.errno} - ${err.code})`); 
-                } 
+            db.query("INSERT INTO Users(name, username, password) VALUES (?, ?, ?)", data, (err, result) => {
+                if(err) { reject(`Something went wrong (${err.errno} - ${err.code})`); } 
 
                 resolve(result.insertId);
             });
@@ -40,9 +34,7 @@ export default {
     edit: function(id, newData) {
         return new Promise((resolve, reject) => {
             db.query("UPDATE Users SET ? WHERE id=?", [newData, id], (err, result) => {
-                if(err) {
-                    reject(`Something went wrong (${err.errno} - ${err.code})`); 
-                } 
+                if(err) { reject(`Something went wrong (${err.errno} - ${err.code})`); } 
 
                 resolve(result.affectedRows > 0?  
                     `Updated User with id: ${id}`
@@ -55,9 +47,7 @@ export default {
     destroy: function(id) {
         return new Promise((resolve, reject) => {
             db.query("DELETE FROM Users WHERE id=?", [id], (err, result) => {
-                if(err) {
-                    reject(`Something went wrong (${err.errno} - ${err.code})`)
-                } 
+                if(err) { reject(`Something went wrong (${err.errno} - ${err.code})`) } 
 
                 resolve( result.affectedRows > 0?  
                     `Deleted user with id:${id}`
