@@ -20,7 +20,7 @@ export default {
                     reject(`Something went wrong (${err.errno} - ${err.code})`)
                 } 
 
-                resolve(result)
+                resolve(result[0])
             });
         })
     },
@@ -67,10 +67,10 @@ export default {
         })
     },
 
-    getIDByLogin: function(username, pass) {
+    getIDByUsername: function(username) {
         return new Promise((resolve, reject) => {
-            db.query("SELECT id FROM Users WHERE username=? AND password=?", 
-                [username, pass], (err, result) => {
+            db.query("SELECT id FROM Users WHERE username=?", 
+                [username], (err, result) => {
                     if(err) { reject(["sql_err", `SQL_ERROR ${err.errno}`]); }
                     
                     if(result.length < 1) { reject(["inv_cred", "Credentials provided doesn't match"]); }
