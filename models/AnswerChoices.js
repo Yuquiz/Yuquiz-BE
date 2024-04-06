@@ -1,71 +1,70 @@
 import db from "./db.js";
 
+const TABLE_NAME = "AnswerChoices"
 export default {
-    getAll: function(res) {
-        db.query("SELECT * FROM AnswerChoices", [], (err, result) => {
-            if(err) {
-                res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
-                return;
-            }
+    getAll: function() {
+        return new Promise((resolve, reject) => {
+            db.query(`SELECT * FROM ${TABLE_NAME}`, [], (err, result) => {
+                if(err) {
+                    return reject(`Something went wrong (${err.errno} - ${err.code})`);
+                }
 
-            res.send({
-                msg: "AnswerChoice data fetch success",
-                data: result
-            });
-        });
-    },
-
-    getById: function(id, res) {
-        db.query("SELECT * FROM AnswerChoices WHERE id=?", [id], (err, result) => {
-            if(err) {
-                res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
-                return;
-            } 
-
-            res.send({
-                msg: "AnswerChoice data fetch success",
-                data: result
-            });
-        });
-    },
-
-    store: function(data, res) {
-        db.query("INSERT INTO AnswerChoices(??) VALUES (?)", data, (err, result) => {
-            if(err) {
-                res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
-                return;
-            } 
-
-            res.send({
-                msg: "AnswerChoice created",
-                id: result.insertId,
-            });
-        });
-    },
-
-    edit: function(id, newData, res) {
-        db.query("UPDATE AnswerChoices SET ? WHERE id=?", [newData, id], (err, result) => {
-            if(err) {
-                res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
-                return;
-            } 
-
-            res.send({ 
-                msg: (result.affectedRows > 0?  `Updated questionChoice with id:${id}`: "Nothing to update")
+                resolve(result);
             });
         })
     },
 
-    destroy: function(id, res) {
-        db.query("DELETE FROM AnswerChoices WHERE id=?", [id], (err, result) => {
-            if(err) {
-                res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
-                return;
-            } 
+    getById: function(id) {
+        return new Promise((resolve, reject) => {
+            db.query(`SELECT * FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
+                if(err) {
+                    return reject(`Something went wrong (${err.errno} - ${err.code})`)
+                } 
 
-            res.send({
-                msg: (result.affectedRows > 0?  `Deleted answerChoice with id:${id}`: "Nothing to delete"),
+                resolve(result);
             });
-        });
+        })
+    },
+
+    store: function(data) {
+        return new Promise((resolve, reject) => {
+            db.query(`INSERT INTO ${TABLE_NAME}(??) VALUES (?)`, data, (err, result) => {
+                if(err) {
+                    return reject(`Something went wrong (${err.errno} - ${err.code})`) 
+                } 
+
+                resolve(result.insertId)
+            });
+        })
+    },
+
+    edit: function(id, newData) {
+        return new Promise((resolve, reject) => {
+            db.query(`UPDATE ${TABLE_NAME} SET ? WHERE id=?`, [newData, id], (err, result) => {
+                if(err) {
+                    return reject(`Something went wrong (${err.errno} - ${err.code})`)
+                } 
+
+                resolve(result.affectedRows > 0?  
+                    `Updated questionChoice with id:${id}`
+                    : "Nothing to update"
+                )
+            })
+        })
+    },
+
+    destroy: function(id) {
+        return new Promise((resolve, reject) => {
+            db.query(`DELETE FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
+                if(err) {
+                    return reject(`Something went wrong (${err.errno} - ${err.code})`);
+                } 
+
+                resolve(result.affectedRows > 0?  
+                    `Deleted answerChoice with id:${id}`
+                    : "Nothing to delete"
+                )
+            });
+        })
     }
 }
