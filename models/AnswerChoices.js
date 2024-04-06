@@ -5,9 +5,7 @@ export default {
     getAll: function() {
         return new Promise((resolve, reject) => {
             db.query(`SELECT * FROM ${TABLE_NAME}`, [], (err, result) => {
-                if(err) {
-                    return reject(`Something went wrong (${err.errno} - ${err.code})`);
-                }
+                if(err) { return reject(`${err.errno} - ${err.code}`); }
 
                 resolve(result);
             });
@@ -17,9 +15,7 @@ export default {
     getById: function(id) {
         return new Promise((resolve, reject) => {
             db.query(`SELECT * FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
-                if(err) {
-                    return reject(`Something went wrong (${err.errno} - ${err.code})`)
-                } 
+                if(err) { return reject(`${err.errno} - ${err.code}`) } 
 
                 resolve(result);
             });
@@ -29,9 +25,7 @@ export default {
     store: function(data) {
         return new Promise((resolve, reject) => {
             db.query(`INSERT INTO ${TABLE_NAME}(??) VALUES (?)`, data, (err, result) => {
-                if(err) {
-                    return reject(`Something went wrong (${err.errno} - ${err.code})`) 
-                } 
+                if(err) { return reject(`${err.errno} - ${err.code}`) } 
 
                 resolve(result.insertId)
             });
@@ -41,9 +35,7 @@ export default {
     edit: function(id, newData) {
         return new Promise((resolve, reject) => {
             db.query(`UPDATE ${TABLE_NAME} SET ? WHERE id=?`, [newData, id], (err, result) => {
-                if(err) {
-                    return reject(`Something went wrong (${err.errno} - ${err.code})`)
-                } 
+                if(err) { return reject(`${err.errno} - ${err.code}`) } 
 
                 resolve(result.affectedRows > 0?  
                     `Updated questionChoice with id:${id}`
@@ -56,9 +48,7 @@ export default {
     destroy: function(id) {
         return new Promise((resolve, reject) => {
             db.query(`DELETE FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
-                if(err) {
-                    return reject(`Something went wrong (${err.errno} - ${err.code})`);
-                } 
+                if(err) { return reject(`${err.errno} - ${err.code}`); } 
 
                 resolve(result.affectedRows > 0?  
                     `Deleted answerChoice with id:${id}`
