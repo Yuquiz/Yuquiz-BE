@@ -14,7 +14,7 @@ export default {
     getById: function(id) {
         return new Promise((resolve, reject) => {
             db.query("SELECT * FROM Users WHERE id=?", [id], (err, result) => {
-                if(err) { reject(`Something went wrong (${err.errno} - ${err.code})`) } 
+                if(err) { return reject(`Something went wrong (${err.errno} - ${err.code})`) } 
 
                 resolve(result[0])
             });
@@ -24,7 +24,7 @@ export default {
     store: function(data) {
         return new Promise((resolve, reject) => {
             db.query("INSERT INTO Users(name, username, password) VALUES (?, ?, ?)", data, (err, result) => {
-                if(err) { reject(`Something went wrong (${err.errno} - ${err.code})`); } 
+                if(err) { return reject(`Something went wrong (${err.errno} - ${err.code})`); } 
 
                 resolve(result.insertId);
             });
@@ -34,7 +34,7 @@ export default {
     edit: function(id, newData) {
         return new Promise((resolve, reject) => {
             db.query("UPDATE Users SET ? WHERE id=?", [newData, id], (err, result) => {
-                if(err) { reject(`Something went wrong (${err.errno} - ${err.code})`); } 
+                if(err) { return reject(`Something went wrong (${err.errno} - ${err.code})`); } 
 
                 resolve(result.affectedRows > 0?  
                     `Updated User with id: ${id}`
@@ -47,7 +47,7 @@ export default {
     destroy: function(id) {
         return new Promise((resolve, reject) => {
             db.query("DELETE FROM Users WHERE id=?", [id], (err, result) => {
-                if(err) { reject(`Something went wrong (${err.errno} - ${err.code})`) } 
+                if(err) { return reject(`Something went wrong (${err.errno} - ${err.code})`) } 
 
                 resolve( result.affectedRows > 0?  
                     `Deleted user with id:${id}`
@@ -61,9 +61,9 @@ export default {
         return new Promise((resolve, reject) => {
             db.query("SELECT id FROM Users WHERE username=?", 
                 [username], (err, result) => {
-                    if(err) { reject(["sql_err", `SQL_ERROR ${err.errno}`]); }
+                    if(err) { return reject(["sql_err", `SQL_ERROR ${err.errno}`]); }
                     
-                    if(result.length < 1) { reject(["inv_cred", "Credentials provided doesn't match"]); }
+                    if(result.length < 1) { return reject(["inv_cred", "Credentials provided doesn't match"]); }
                     
                     resolve(result[0])
                 }
