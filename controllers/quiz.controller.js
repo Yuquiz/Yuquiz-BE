@@ -4,7 +4,7 @@ import utils from "./utils.js"
 const FILLABLES = ["user_ID", "name", "duration"];
 
 export default {
-    index: async function(req, res) {
+    index: async function(req, res, next) {
         await model.getAll()
             .then((result) => {
                 return res.send({
@@ -17,7 +17,7 @@ export default {
             });
     },
 
-    getOne: async function(req, res) {
+    getOne: async function(req, res, next) {
         if (utils.isInvalidID(req.params.id, res)) return;
 
         await model.getById(req.params.id)
@@ -32,7 +32,7 @@ export default {
             });
     },
 
-    store: async function(req, res) {
+    store: async function(req, res, next) {
         const dataComplete = FILLABLES.every(key => req.body[key] != undefined)
 
         const dataTypeCorrect = (
@@ -84,7 +84,7 @@ export default {
             })
     },
 
-    destroy: async function(req, res) {
+    destroy: async function(req, res, next) {
         if (utils.isInvalidID(req.params.id, res)) return;
         await model.destroy(req.params.id)
             .then((result) => {
