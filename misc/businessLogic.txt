@@ -1,0 +1,12 @@
+Rekomendasi Flow Aplikasi :
+1. Perlu register dan login untuk memulai kuis.
+2. Ada endpoint profile untuk melihat semua data profile dan dapat mengubah data profil sendiri 
+    (berdasarkan yang login, tidak mengubah profile orang lain).
+3. Ada endpoint dashboard untuk melihat semua kuis yang sudah dia kerjakan.
+4. Untuk kuis, ada yang sifat nya public / global dan ada yang sifat nya private 
+    ( khusus untuk yang punya akses. Ini seperti private room).
+5. Ada minimal 3 role:
+    - Role superadmin : dia dapat melakukan apapun
+    - Role admin : dia hanya melakukan request dengan GET Method saja untuk semua endpoint
+    - Role user : dia dapat membuat private room, mengerjakan public kuis atau kuis yang sudah punya akses.
+6. Setiap kuis, punya akses ke endpoint ranking. Jadi dapat melihat ranking dari setiap yang mengerjakan kuis.
