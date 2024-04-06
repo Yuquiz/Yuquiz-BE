@@ -1,72 +1,71 @@
 import db from "./db.js";
 
+const TABLE_NAME = "Quizzes";
+
 export default {
-    getAll: function(res) {
-        db.query("SELECT * FROM Quizzes", [], (err, result) => {
-            if(err) {
-                res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
-                return;
-            }
+    getAll: function() {
+        return new Promise((resolve, reject) => {
+            db.query(`SELECT * FROM ${TABLE_NAME}`, [], (err, result) => {
+                if(err) {
+                    return reject(`Something went wrong (${err.errno} - ${err.code})`);
+                }
 
-            res.send({
-                msg: "Quiz data fetch success",
-                data: result
+                resolve(result);
             });
-        });
+        })
     },
 
-    getById: function(id, res) {
-        db.query("SELECT * FROM Quizzes WHERE id=?", [id], (err, result) => {
-            if(err) {
-                res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
-                return;
-            } 
+    getById: function(id) {
+        return new Promise((resolve, reject) => {
+            db.query(`SELECT * FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
+                if(err) {
+                    return reject(`Something went wrong (${err.errno} - ${err.code})`);
+                } 
 
-            res.send({
-                msg: "Quiz data fetch success",
-                data: result
+                resolve(result);
             });
-        });
+        })
     },
 
-    store: function(data, res) {
-        db.query("INSERT INTO Quizzes(??) VALUES (?)", data, (err, result) => {
-            if(err) {
-                res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
-                return;
-            } 
+    store: function(data) {
+        return new Promise((resolve, reject) => {
+            db.query(`INSERT INTO ${TABLE_NAME}(??) VALUES (?)`, data, (err, result) => {
+                if(err) { 
+                    return reject(`Something went wrong (${err.errno} - ${err.code})`);
+                }
 
-            res.send({
-                msg: "Quiz created",
-                id: result.insertId,
+                resolve(result.insertId);
             });
-        });
+        })
     },
 
-    edit: function(id, newData, res) {
-        db.query("UPDATE Quizzes SET ? WHERE id=?", [newData, id], (err, result) => {
-            if(err) {
-                res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
-                return;
-            } 
+    edit: function(id, newData) {
+        return new Promise((resolve, reject) => {
+            db.query(`UPDATE ${TABLE_NAME} SET ? WHERE id=?`, [newData, id], (err, result) => {
+                if(err) {
+                    return reject(`Something went wrong (${err.errno} - ${err.code})`);
+                } 
 
-            res.send({ 
-                msg: (result.affectedRows > 0?  `Updated quiz with id:${id}`: "Nothing to update")
+                resolve( result.affectedRows > 0?  
+                    `Updated quiz with id:${id}`: 
+                    "Nothing to update"
+                );
             });
-        });
-        
+        })
     },
 
-    destroy: function(id, res) {
-        db.query("DELETE FROM Quizzes WHERE id=?", [id], (err, result) => {
-            if(err) {
-                res.send({ msg: `Something went wrong (${err.errno} - ${err.code})`, }); 
-                return;
-            } 
+    destroy: function(id) {
+        return new Promise((resolve, reject) => {
+            db.query(`DELETE FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
+                if(err) { 
+                    return reject(`Something went wrong (${err.errno} - ${err.code})`);
+                }
 
-            res.send({
-                msg: (result.affectedRows > 0?  `Deleted quiz with id:${id}`: "Nothing to delete"),
+                resolve(result.affectedRows > 0?  
+                    `Deleted quiz with id:${id}`: 
+                    "Nothing to delete"
+                );
             });
-        });
+        })
     }
 }

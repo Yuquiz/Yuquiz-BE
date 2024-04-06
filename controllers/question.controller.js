@@ -1,22 +1,38 @@
 import model from "../models/Questions.js";
 import utils from "./utils.js"
 
+const FILLABLES = ["quiz_ID", "text", "point"];
+
 export default {
-    index: function(req, res) {
-        model.getAll(res);
+    index: async function(req, res) {
+        await model.getAll()
+            .then((result) => {
+                return res.send({
+                    msg: "Question fetch success",
+                    data: result
+                })
+            })
+            .catch((err) => {
+                return res.status(500).send({msg: err})
+            });
     },
 
-    getOne: function(req, res) {
+    getOne: async function(req, res) {
         if (utils.isInvalidID(req.params.id, res)) return;
-        model.getById(req.params.id, res);
+        await model.getById(req.params.id)
+            .then((result) => {
+                return res.send({
+                    msg: "Question fetch success",
+                    data: result
+                })
+            })
+            .catch((err) => {
+                return res.status(500).send({msg: err})
+            });
     },
 
-    store: function(req, res) {
-        const dataComplete = (
-            req.body["quiz_ID"] != undefined
-            && req.body["text"] != undefined
-            && req.body["point"] != undefined
-        )
+    store: async function(req, res) {
+        const dataComplete = FILLABLES.every(key => req.body[key] != undefined)
 
         const dataTypeCorrect = (
             !isNaN(req.body["quiz_ID"])
@@ -33,37 +49,48 @@ export default {
                 errorMsg.push("'quiz_ID' and 'point' should be a number");
             }
 
-            res.status(400);
-            res.send({msg: errorMsg});
-            return;
+            return res.status(400).send({msg: errorMsg});
         }
 
-        const data = [
-            ["quiz_ID", "text", "point"],
-            [req.body["quiz_ID"], req.body["text"], req.body["point"]]
-        ]
-        model.store(data, res);
+        const data = [ FILLABLES, FILLABLES.map(key => req.body[key])]
+        await model.store(data)
+            .then((result) => {
+                return res.send({ msg: `Question created with id:${result}` })
+            })
+            .catch((err) => {
+                return res.status(500).send({msg: err})
+            });
     },
 
-    edit: function(req, res) {
+    edit: async function(req, res) {
         if (utils.isInvalidID(req.params.id, res)) return;
         if (utils.isBodyEmpty(req.body, res)) return;
-        if (utils.hasUnexpectedKey(Object.keys(req.body), ["point", "text"], res)) return;
+        if (utils.hasUnexpectedKey(Object.keys(req.body), FILLABLES, res)) return;
 
         // Ignore when doesn't exist
         const pointTypeCorrect = (req.body["point"] == undefined 
                             || !isNaN(req.body["point"]));
         if( !pointTypeCorrect ) {
-            res.status(400);
-            res.send({msg: "'point' should be a number"});
-            return;
+            return res.status(400).send({msg: "'point' should be a number"});
         }
 
-        model.edit(req.params.id, req.body, res);
+        await model.edit(req.params.id, req.body)
+            .then((result) => {
+                return res.send({ msg: result })
+            })
+            .catch((err) => {
+                return res.status(500).send({msg: err})
+            });
     },
 
-    destroy: function(req, res) {
-        if (utils.isInvalidID(req.params.id, res)) return;
-        model.destroy(req.params.id);
+    destroy: async function(req, res) {
+        if (utils.isInvalidID(req.params.id)) return;
+        await model.destroy(req.params.id)
+            .then((result) => {
+                return res.send({ msg: result })
+            })
+            .catch((err) => {
+                return res.status(500).send({msg: err})
+            });
     }
 }
