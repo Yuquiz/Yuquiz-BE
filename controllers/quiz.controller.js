@@ -12,9 +12,7 @@ export default {
                     data: result
                 });
             })
-            .catch((err) => {
-                next({ code: "query_error", reason: err });
-            });
+            .catch(err => { next({code: "query_error", reason: err}); });
     },
 
     getOne: async function(req, res, next) {
@@ -27,9 +25,7 @@ export default {
                     data: result,
                 });
             })
-            .catch((err) => {
-                next({ code: "query_error", reason: err });
-            });
+            .catch(err => { next({code: "query_error", reason: err}); });
     },
 
     store: async function(req, res, next) {
@@ -55,12 +51,8 @@ export default {
 
         const data = [FILLABLES, FILLABLES.map(key => req.body[key]) ]
         await model.store(data)
-            .then((result) => {
-                return res.send({ msg: `Quiz created with id ${result}` })
-            })
-            .catch((err) => {
-                next({code: "query_error", reason: err});
-            });
+            .then(result => res.send({ msg: `Quiz created with id ${result}`}))
+            .catch(err => { next({code: "query_error", reason: err}); });
     },
 
     edit: async function(req, res, next) {
@@ -76,22 +68,14 @@ export default {
         }
 
         await model.edit(req.params.id, req.body)
-            .then((result) => {
-                return res.send({msg: result});
-            })
-            .catch((err) => {
-                next({ code: "query_error", reason: err });
-            })
+            .then(result => res.send({msg: result}))
+            .catch(err => { next({ code: "query_error", reason: err }); });
     },
 
     destroy: async function(req, res, next) {
         if (utils.isInvalidID(req.params.id, res)) return;
         await model.destroy(req.params.id)
-            .then((result) => {
-                return res.send( { msg: result} )
-            })
-            .catch((err) => {
-                next({ code: "query_error", reason: err });
-            });
+            .then(result => res.send({msg: result}))
+            .catch(err => { next({ code: "query_error", reason: err }); });
     }
 }
