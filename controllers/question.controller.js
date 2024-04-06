@@ -65,7 +65,7 @@ export default {
     edit: async function(req, res) {
         if (utils.isInvalidID(req.params.id, res)) return;
         if (utils.isBodyEmpty(req.body, res)) return;
-        if (utils.hasUnexpectedKey(Object.keys(req.body), ["point", "text"], res)) return;
+        if (utils.hasUnexpectedKey(Object.keys(req.body), FILLABLES, res)) return;
 
         // Ignore when doesn't exist
         const pointTypeCorrect = (req.body["point"] == undefined 
