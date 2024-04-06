@@ -13,7 +13,7 @@ export default {
                 })
             })
             .catch((err) => {
-                next({code: "sql_error", reason: err})
+                next({code: "query_error", reason: err})
             });
     },
 
@@ -27,7 +27,7 @@ export default {
                 })
             })
             .catch((err) => {
-                next({code: "sql_error", reason: err})
+                next({code: "query_error", reason: err})
             });
     },
 
@@ -62,7 +62,7 @@ export default {
                 return res.send({ msg: `AnswerChoice created with id:${result}` })
             })
             .catch((err) => {
-                next({code: "sql_error", reason: err})
+                next({code: "query_error", reason: err})
             });
     },
 
@@ -88,7 +88,7 @@ export default {
                 return res.send({ msg: result })
             })
             .catch((err) => {
-                next({code: "sql_error", reason: err})
+                next({code: "query_error", reason: err})
             });
     },
 
@@ -99,7 +99,7 @@ export default {
                 return res.send({ msg: result })
             })
             .catch((err) => {
-                next({code: "sql_error", reason: err})
+                next({code: "query_error", reason: err})
             });
     }
 }

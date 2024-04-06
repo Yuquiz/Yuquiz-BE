@@ -11,7 +11,7 @@ export default {
         code: 404,
         message: "Requested resource doesn't exist in server"
     },
-    "sql_error": {
+    "query_error": {
         code: 500,
         message: "An error has occured during server database operation"
     },
