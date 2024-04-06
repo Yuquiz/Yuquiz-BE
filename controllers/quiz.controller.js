@@ -13,7 +13,7 @@ export default {
                 });
             })
             .catch((err) => {
-                return res.status(500).send( {msg: err} );
+                next({ code: "sql_error", reason: err });
             });
     },
 
@@ -28,7 +28,7 @@ export default {
                 });
             })
             .catch((err) => {
-                return res.status(500).send({msg: err })
+                next({ code: "sql_error", reason: err });
             });
     },
 
@@ -59,11 +59,11 @@ export default {
                 return res.send({ msg: `Quiz created with id ${result}` })
             })
             .catch((err) => {
-                return res.status(500).send({msg: err});
+                next({code: "sql_error", reason: err});
             });
     },
 
-    edit: async function(req, res) {
+    edit: async function(req, res, next) {
         if (utils.isInvalidID(req.params.id, res)) return;
         if (utils.isBodyEmpty(req.body, res)) return;
         if (utils.hasUnexpectedKey(Object.keys(req.body), FILLABLES, res)) return;
@@ -80,7 +80,7 @@ export default {
                 return res.send({msg: result});
             })
             .catch((err) => {
-                return res.status(500).send({msg: err});
+                next({ code: "sql_error", reason: err });
             })
     },
 
@@ -91,7 +91,7 @@ export default {
                 return res.send( { msg: result} )
             })
             .catch((err) => {
-                return res.status(500).send({msg: err})
+                next({ code: "sql_error", reason: err });
             });
     }
 }
