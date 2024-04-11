@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import ERRORS from "./errorHandler.errors.js";
+import ERRORS from "../configs/errors.config.js";
 
 export default function errorHandler(err, req, res, next) {
     const caughtError = ERRORS[err.code]
