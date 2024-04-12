@@ -7,6 +7,10 @@ export default {
         "code": 400,
         "message": "Your request contains something not accepted by server"
     },
+    "internal_error": {
+        "code": 500,
+        "message": "Unknown internal server error"
+    },
     "not_found": {
         "code": 404,
         "message": "Requested resource doesn't exist in server"
@@ -22,5 +26,5 @@ export default {
     "token_expired": {
         "code": 403,
         "message": "Your token has expired, consider logging in again to obtain a new one" 
-    }
+    },
 }
