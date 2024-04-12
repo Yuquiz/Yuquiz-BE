@@ -59,15 +59,15 @@ export default {
         })
     },
 
-    getIDByUsername: function(username) {
+    getByUsername: function(username) {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT id FROM ${TABLE_NAME} WHERE username=?`, 
+            db.query(`SELECT * FROM ${TABLE_NAME} WHERE username=?`, 
                 [username], (err, result) => {
                     if(err) { return reject(["sql_err", `SQL_ERROR ${err.errno}`]); }
                     
-                    if(result.length < 1) { return reject(["inv_cred", "Credentials provided doesn't match"]); }
+                    if(result.length < 1) { return reject(["inv_cred", "No user with provided credentials"]); }
                     
-                    resolve(result[0])
+                    resolve(result)
                 }
             )
         })
