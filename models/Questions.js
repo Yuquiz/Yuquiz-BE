@@ -1,4 +1,4 @@
-import db from "./db.js";
+import db from "../configs/db.js";
 
 const TABLE_NAME = "Questions";
 
