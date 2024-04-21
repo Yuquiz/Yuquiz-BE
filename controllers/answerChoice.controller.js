@@ -1,7 +1,6 @@
 import model from "../models/AnswerChoices.js";
-import utils from "./utils.js"
 
-const FILLABLES = ["question_ID", "text", "isCorrect"];
+const FILLABLES = ["question_id", "text", "isCorrect"];
 
 export default {
     index: async function(req, res, next) {
@@ -44,7 +43,6 @@ export default {
     },
 
     destroy: async function(req, res, next) {
-        if (utils.isInvalidID(req.params.id, res)) return;
         await model.destroy(req.params.id)
             .then(result => res.send({ msg: result }))
             .catch(err => next(err));

@@ -38,7 +38,7 @@ export default {
                 if(err) { return reject({code: "query_error", reason:`${err.errno} - ${err.code}`})}
 
                 resolve(result.affectedRows > 0?  
-                    `Updated questionChoice with id:${id}`
+                    `Updated answerChoice with id:${id}`
                     : "Nothing to update"
                 )
             })

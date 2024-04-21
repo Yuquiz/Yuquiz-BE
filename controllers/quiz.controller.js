@@ -1,5 +1,5 @@
 import model from "../models/Quizzes.js"
-const FILLABLES = ["user_ID", "name", "duration", "visibility"];
+const FILLABLES = ["user_id", "name", "duration", "visibility"];
 
 export default {
     index: async function(req, res, next) {

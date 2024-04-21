@@ -1,7 +1,6 @@
 import model from "../models/Questions.js";
-import utils from "./utils.js"
 
-const FILLABLES = ["quiz_ID", "text", "point"];
+const FILLABLES = ["quiz_id", "text", "point"];
 
 export default {
     index: async function(req, res, next) {
