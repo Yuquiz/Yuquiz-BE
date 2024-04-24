@@ -1,6 +1,7 @@
 import quiz from "../models/Quizzes.js";
 import privateRooms from "../models/PrivateRooms.js";
 
+// refer to ../misc/businessLogic.txt (based on what I understand)
 export const PERMISSIONS = {
     "superadmin": {
         "user": ["GET", "POST", "PUT", "DELETE"],
@@ -22,13 +23,19 @@ export const PERMISSIONS = {
         "roomPermission": ["GET"],
         "roomQuiz": ["GET"],
     },
-    "user": { }
+    "user": { 
+        "user": ["GET", "PUT"],
+        "quiz": ["GET"],
+        "question": ["GET"],
+        "answer": ["GET"],
+        "room": ["GET", "POST"],
+        "roomPermission": ["GET"],
+        "roomQuiz": ["GET"],
+    }
 };
 
-export const ID_RESTRICTED_HANDLERS = { 
-    "user": (req, res, next) => {
-        return req.params.id == req.id;
-    },
+export const IS_OWN_HANDLERS = { 
+    "user": (req, res, next) => req.params.id == req.id || req.role != "user", // bypasses role higher than `user`
     "quiz": async(req, res, next) => {
         return await quiz.getById(req.params.id)
             .then(res => res["user_id"] == req.id)
