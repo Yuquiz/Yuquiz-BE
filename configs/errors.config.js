@@ -26,6 +26,9 @@ export default {
     "token_expired": {
         code: 403, message: "Token has expired, consider logging in again to obtain a new one" 
     },
+    "not_owner": {
+        code: 403, message: "You are not the owner of this asset"
+    },
     "unknown": {
         code: 500, message: "Unknown internal server error"
     },
