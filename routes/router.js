@@ -11,17 +11,20 @@ import privateRoom from "./privateRoom.route.js";
 import roomPermission from "./roomPermission.route.js";
 import roomQuiz from "./roomQuiz.route.js";
 
+import jwtAuthWare from "../middlewares/jwtAuth.js";
+
 const ROUTER = express.Router();
-ROUTER.use("/user", user);
-ROUTER.use("/quiz", quiz);
-ROUTER.use("/question", question);
-ROUTER.use("/answer", answerChoice);
+ROUTER.use("/user", jwtAuthWare, user);
+ROUTER.use("/quiz", jwtAuthWare, quiz);
+ROUTER.use("/question", jwtAuthWare, question);
+ROUTER.use("/answer", jwtAuthWare, answerChoice);
+ROUTER.use("/attempt", jwtAuthWare, attempt);
+ROUTER.use("/room", jwtAuthWare, privateRoom);
+ROUTER.use("/roomPermission", jwtAuthWare, roomPermission);
+ROUTER.use("/roomQuiz", jwtAuthWare, roomQuiz);
+
 ROUTER.use("/auth", auth);
 ROUTER.use("/leaderboard", leaderboard);
-ROUTER.use("/attempt", attempt);
-ROUTER.use("/room", privateRoom);
-ROUTER.use("/roomPermission", roomPermission);
-ROUTER.use("/roomQuiz", roomQuiz);
 
 export default ROUTER;
 

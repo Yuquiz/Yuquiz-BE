@@ -11,6 +11,7 @@ export default function authJWT(req, res, next) {
     const err = jwt.verify(token, process.env.JWT_SECRET, (err, decodedData) => {
         if(err) { return err }
         req.id = decodedData.id;
+        req.role = decodedData.role;
     })
     if(err) { return res.status(403).send({msg: err}) }
 
