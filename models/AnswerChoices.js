@@ -17,7 +17,7 @@ export default {
             db.query(`SELECT * FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
                 if(err) { return reject({code: "query_error", reason:`${err.errno} - ${err.code}`})}
 
-                resolve(result);
+                resolve(result[0]);
             });
         })
     },
