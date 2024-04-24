@@ -9,7 +9,7 @@ function generateToken(userInfo, onError, callback) {
     jwt.sign(
         userInfo, 
         process.env.JWT_SECRET,
-        { expiresIn: 60*10 },
+        { expiresIn: 60*30 },
         (err, token) => {
             if(err) { return onError({code: "internal_error", msg: err}) }
 
