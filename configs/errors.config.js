@@ -1,7 +1,7 @@
 export default {
     // Tokens
     "token_missing_or_invalid": {
-        code: 403, message: "A valid token needed to access this resource" 
+        code: 401, message: "A valid token needed to access this resource" 
     },
     "token_expired": {
         code: 403, message: "Token has expired, consider logging in again to obtain a new one" 
