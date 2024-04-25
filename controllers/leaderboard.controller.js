@@ -24,13 +24,13 @@ function generateTop10(result) {
             );
 
             positionSearchDone = (
-                replacePtr < filledEntries
-                || currentExistingRecord == null 
+                replacePtr == filledEntries                 
+                || currentExistingRecord == null            
                 || hasBetterDuplicate
-                || currentExistingRecord.score < currentRecord.score
+                || currentExistingRecord.score < currentRecord.score 
                 || (
-                    currentExistingRecord.score == currentRecord.score // Attempt with lower id means an attempt recorded earlier.
-                    && currentExistingRecord.id > currentRecord.id // This has to be done since SQL join groups record by id, which a column the join based on
+                    currentExistingRecord.score == currentRecord.score // /* Attempt with lower id means an attempt recorded earlier.
+                    && currentExistingRecord.id > currentRecord.id     // This has to be done since SQL join groups record by id, which a column the join based on */
                     )    
             );
         }
