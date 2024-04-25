@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import model from "../models/Users.js";
-import utils from "./utils.js"
 
 const FILLABLES = ["name", "username", "password"];
 
@@ -26,7 +25,6 @@ export default {
     },
 
     getOne: async function(req, res, next) {
-        if (utils.isInvalidID(req.params.id, res)) return;
         await model.getById(req.params.id)
             .then((result) => {
                 return res.send({
@@ -38,29 +36,23 @@ export default {
     },
 
     store: async function(req, res, next) {
-        const dataComplete = FILLABLES.every(key => req.body[key] != undefined)
-        if(!dataComplete) {
-            return next({code: "insufficient_data", reason: "No data needs to be inserted"})
-        }
-
         req.body["password"] = await hashPassword(req.body["password"]);
-        await model.store(FILLABLES.map(key => req.body[key]))
-            .then(result => res.send({ msg: `User created with id ${result}`}))
-            .catch(err => next(err) );
+        const data = [ FILLABLES, FILLABLES.map(key => req.body[key])]
+        await model.store(data)
+            .then(result => res.send({ msg: `User created with id:${result}` }))
+            .catch(err => next(err));
     },
 
     edit: async function(req, res, next) {
-        if (utils.isInvalidID(req.params.id, res)) return;
-        if (utils.isBodyEmpty(req.body, res)) return;
-        if (utils.hasUnexpectedKey(Object.keys(req.body), FILLABLES, res)) return;
+        Object.keys(req.body).forEach((key) => {
+            if(!FILLABLES.includes(key)) {delete req.body[key]}
+        })
 
-        const hasChangeData = FILLABLES.some(key => req.body[key] != undefined)
-        if(!hasChangeData) {
-            return next({code: "insufficient_data", reason: "No data needs to be changed"})
+        if(Object.keys(req.body).length == 0) {
+            return next({code: "insufficient_data", reason: "No data to process"})
         }
 
-        const newPass = req.body["password"]
-        if(newPass != undefined) {
+        if(req.body["password"] != undefined) {
             req.body["password"] = await hashPassword(newPass);
         }
 
@@ -70,7 +62,6 @@ export default {
     },
 
     destroy: async function(req, res, next) {
-        if (utils.isInvalidID(req.params.id, res)) return;
         await model.destroy(req.params.id)
             .then(result => res.send({msg: result}))
             .catch(err => next(err));
