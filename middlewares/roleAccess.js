@@ -9,8 +9,8 @@ export default async function roleAccessController(req, res, next) {
 
     if(methodProhibited) {
         return next({
-            code: "not_owner", 
-            reason: "You need a higher access role"
+            code: "role_not_authorized", 
+            message: "You need a higher access role"
         });
     }
 
@@ -20,7 +20,7 @@ export default async function roleAccessController(req, res, next) {
         if(!ownedResource) {
             return next({
                 code: "not_owner", 
-                reason: "You're not the owner of this resource"
+                message: "You're not the owner of this resource"
             })
         }
     }

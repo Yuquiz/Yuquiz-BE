@@ -6,7 +6,7 @@ export default {
     getAll: function() {
         return new Promise((resolve, reject) => {
             db.query(`SELECT * FROM ${TABLE_NAME}`, [], (err, result) => {
-                if(err) { return reject({code: "query_error", reason:`${err.errno} - ${err.code}`})}
+                if(err) { return reject({code: "query_error", message:err})}
 
                 resolve(result);
             });
@@ -16,7 +16,7 @@ export default {
     getById: function(id) {
         return new Promise((resolve, reject) => {
             db.query(`SELECT * FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
-                if(err) { return reject({code: "query_error", reason:`${err.errno} - ${err.code}`})}
+                if(err) { return reject({code: "query_error", message:err})}
 
                 resolve(result[0]);
             });
@@ -26,7 +26,7 @@ export default {
     store: function(data) {
         return new Promise((resolve, reject) => {
             db.query(`INSERT INTO ${TABLE_NAME}(??) VALUES (?)`, data, (err, result) => {
-                if(err) { return reject({code: "query_error", reason:`${err.errno} - ${err.code}`})}
+                if(err) { return reject({code: "query_error", message:err})}
 
                 resolve(result.insertId);
             });
@@ -36,7 +36,7 @@ export default {
     edit: function(id, newData) {
         return new Promise((resolve, reject) => {
             db.query(`UPDATE ${TABLE_NAME} SET ? WHERE id=?`, [newData, id], (err, result) => {
-                if(err) { return reject({code: "query_error", reason:`${err.errno} - ${err.code}`})}
+                if(err) { return reject({code: "query_error", message:err})}
 
                 resolve(result.affectedRows > 0?  
                     `Updated attempt with id:${id}`
@@ -49,7 +49,7 @@ export default {
     destroy: function(id) {
         return new Promise((resolve, reject) => {
             db.query(`DELETE FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
-                if(err) { return reject({code: "query_error", reason:`${err.errno} - ${err.code}`})}
+                if(err) { return reject({code: "query_error", message:err})}
 
                 resolve(result.affectedRows > 0?  
                     `Deleted attempt with id:${id}`
@@ -63,7 +63,7 @@ export default {
         return new Promise((resolve, reject) => {
             db.query(`SELECT ${TABLE_NAME}.* FROM ${TABLE_NAME} JOIN Users ON ${TABLE_NAME}.user_id = Users.id WHERE quiz_id=? `, 
                 [quizId], (err, result) => {
-                    if(err) { return reject({code: "query_error", reason:`${err.errno} - ${err.code}`})}
+                    if(err) { return reject({code: "query_error", message:err})}
     
                     resolve(result);
                 }
@@ -75,7 +75,7 @@ export default {
         return new Promise((resolve, reject) => {
             db.query(`SELECT ${TABLE_NAME}.* FROM ${TABLE_NAME} JOIN Quizzes ON ${TABLE_NAME}.quiz_id = Quizzes.id WHERE ${TABLE_NAME}.user_id=? `, 
                 [userId], (err, result) => {
-                    if(err) { return reject({code: "query_error", reason:`${err.errno} - ${err.code}`})}
+                    if(err) { return reject({code: "query_error", message:err})}
 
                     resolve(result);
                 }
