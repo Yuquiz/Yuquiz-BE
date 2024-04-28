@@ -5,8 +5,7 @@ export default {
         await attempt.quizzesByUser(req.id)
             .then(result => {
                 const quizStats = {}
-                for(let idx = 0; idx < result.length; idx++) {
-                    const item = result[idx];
+                for(const item of result) { 
                     const quizId = item["quiz_id"];
                     if(quizStats[quizId] == null) {
                         quizStats[quizId] = {
