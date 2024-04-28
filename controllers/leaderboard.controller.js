@@ -1,4 +1,4 @@
-import model from "../models/Attempts.js";
+import attempt from "../models/Attempts.js";
 
 function generateTop10(result) {
     const bestRecords = new Array(10).fill(null);
@@ -74,7 +74,7 @@ function generateTop10(result) {
 
 export default {
     index: async function(req, res, next) {
-        await model.users(req.params.id)
+        await attempt.usersByQuiz(req.params.id)
             .then(result => {
                 return res.send({
                     msg: "Best attempt fetch success",

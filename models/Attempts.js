@@ -59,21 +59,35 @@ export default {
         })
     },
 
-    users: function(quizId) {
+    usersByQuiz: function(quizId) {
+        const JOIN_TABLE_NAME = "Users"
         return new Promise((resolve, reject) => {
-            db.query(`SELECT ${TABLE_NAME}.* FROM ${TABLE_NAME} JOIN Users ON ${TABLE_NAME}.user_id = Users.id WHERE quiz_id=? `, 
+            db.query(
+                `SELECT ${TABLE_NAME}.*, `
+                    + `${JOIN_TABLE_NAME}.id as user_id, `
+                    + `${JOIN_TABLE_NAME}.* `
+                + `FROM ${TABLE_NAME} `
+                + `JOIN ${JOIN_TABLE_NAME} ON ${TABLE_NAME}.user_id = ${JOIN_TABLE_NAME}.id `
+                + `WHERE quiz_id=? `, 
                 [quizId], (err, result) => {
                     if(err) { return reject({code: "query_error", message:err})}
-    
+
                     resolve(result);
                 }
             );
         })
     },
 
-    quizzes: function(userId) {
+    quizzesByUser: function(userId) {
+        const JOIN_TABLE_NAME = "Quizzes";
         return new Promise((resolve, reject) => {
-            db.query(`SELECT ${TABLE_NAME}.* FROM ${TABLE_NAME} JOIN Quizzes ON ${TABLE_NAME}.quiz_id = Quizzes.id WHERE ${TABLE_NAME}.user_id=? `, 
+            db.query(
+                `SELECT ${TABLE_NAME}.*, `
+                    + `${JOIN_TABLE_NAME}.id as quiz_id, `
+                    + `${JOIN_TABLE_NAME}.* `
+                + `FROM ${TABLE_NAME} `
+                + `JOIN ${JOIN_TABLE_NAME} ON ${TABLE_NAME}.quiz_id = ${JOIN_TABLE_NAME}.id `
+                + `WHERE ${TABLE_NAME}.user_id=? `, 
                 [userId], (err, result) => {
                     if(err) { return reject({code: "query_error", message:err})}
 
