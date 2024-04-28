@@ -8,7 +8,7 @@ export default async function(req, res, next) {
     let hasPermission = false;
 
     await room.getById(req.params.id) // Is current user the owner of this room?
-        .then(result => hasPermission = req.id == result.user_id)    
+        .then(result => hasPermission = req.id == result?.user_id)    
         .catch(err => error = err )
 
     if(!hasPermission) { 
