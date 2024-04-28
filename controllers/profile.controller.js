@@ -7,6 +7,6 @@ export default {
                     msg: `Hello, ${result["name"]} (U#${result["id"]})`,
                     info: result,
                 }
-            )).catch(err => {errorOccured = true; next(err)})
+            )).catch(err => next(err))
     }
 }
