@@ -87,7 +87,7 @@ export default {
                 `SELECT ${TABLE_NAME}.*, `
                     + `${JOIN_TABLE_NAME}.*, `
                     + `${TABLE_NAME}.user_id as participant_id, `
-                    + `${TABLE_NAME}.room_id as room_id, `
+                    + `${TABLE_NAME}.room_id as room_id `
                 + `FROM ${TABLE_NAME} `
                 + `JOIN ${JOIN_TABLE_NAME} ON ${TABLE_NAME}.room_id = ${JOIN_TABLE_NAME}.id `
                 + `WHERE ${TABLE_NAME}.user_id=? `, 
