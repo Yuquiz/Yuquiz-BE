@@ -1,6 +1,7 @@
 import express from "express";
 import controller from "../controllers/roomQuiz.controller.js"
 import roleAccessWare from "../middlewares/roleAccess.js";
+import roomQuizAccessWare from "../middlewares/roomQuizAccess.js";
 const ROUTER = express.Router();
 
 ROUTER.get("/", roleAccessWare, controller.index); // Get all
