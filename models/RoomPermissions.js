@@ -58,4 +58,45 @@ export default {
             });
         })
     },
+
+    usersByRoomId: function(RoomId) {
+        const JOIN_TABLE_NAME = "Users"
+        return new Promise((resolve, reject) => {
+            db.query(
+                `SELECT ${TABLE_NAME}.*, `
+                    + `${JOIN_TABLE_NAME}.*, `
+                    + `${TABLE_NAME}.user_id as participant_id, `
+                    + `${TABLE_NAME}.room_id as room_id, `
+                    + `${JOIN_TABLE_NAME}.id as user_id `
+                + `FROM ${TABLE_NAME} `
+                + `JOIN ${JOIN_TABLE_NAME} ON ${TABLE_NAME}.user_id = ${JOIN_TABLE_NAME}.id `
+                + `WHERE room_id=? `, 
+                [quizId], (err, result) => {
+                    if(err) { return reject({code: "query_error", message:err})}
+
+                    resolve(result);
+                }
+            );
+        })
+    },
+
+    roomByUserId: function(userId) {
+        const JOIN_TABLE_NAME = "PrivateRooms";
+        return new Promise((resolve, reject) => {
+            db.query(
+                `SELECT ${TABLE_NAME}.*, `
+                    + `${JOIN_TABLE_NAME}.*, `
+                    + `${TABLE_NAME}.user_id as participant_id, `
+                    + `${TABLE_NAME}.room_id as room_id, `
+                + `FROM ${TABLE_NAME} `
+                + `JOIN ${JOIN_TABLE_NAME} ON ${TABLE_NAME}.room_id = ${JOIN_TABLE_NAME}.id `
+                + `WHERE ${TABLE_NAME}.user_id=? `, 
+                [userId], (err, result) => {
+                    if(err) { return reject({code: "query_error", message:err})}
+
+                    resolve(result);
+                }
+            );
+        })
+    },
 }
