@@ -87,7 +87,7 @@ CREATE TABLE `PrivateRooms` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `PrivateRooms_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,6 +96,7 @@ CREATE TABLE `PrivateRooms` (
 
 LOCK TABLES `PrivateRooms` WRITE;
 /*!40000 ALTER TABLE `PrivateRooms` DISABLE KEYS */;
+INSERT INTO `PrivateRooms` VALUES (1,10,'Jeremiah\'s private room'),(2,11,'Jennifer\'s private room');
 /*!40000 ALTER TABLE `PrivateRooms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +173,7 @@ CREATE TABLE `RoomPermissions` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `RoomPermissions_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `PrivateRooms` (`id`),
   CONSTRAINT `RoomPermissions_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `Users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,6 +182,7 @@ CREATE TABLE `RoomPermissions` (
 
 LOCK TABLES `RoomPermissions` WRITE;
 /*!40000 ALTER TABLE `RoomPermissions` DISABLE KEYS */;
+INSERT INTO `RoomPermissions` VALUES (1,1,12),(2,1,13),(3,2,13),(4,2,14),(5,2,15),(6,2,12);
 /*!40000 ALTER TABLE `RoomPermissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +202,7 @@ CREATE TABLE `RoomQuizzes` (
   KEY `quiz_id` (`quiz_id`),
   CONSTRAINT `RoomQuizzes_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `PrivateRooms` (`id`),
   CONSTRAINT `RoomQuizzes_ibfk_2` FOREIGN KEY (`quiz_id`) REFERENCES `Quizzes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,6 +211,7 @@ CREATE TABLE `RoomQuizzes` (
 
 LOCK TABLES `RoomQuizzes` WRITE;
 /*!40000 ALTER TABLE `RoomQuizzes` DISABLE KEYS */;
+INSERT INTO `RoomQuizzes` VALUES (2,1,6),(3,2,7),(4,2,8);
 /*!40000 ALTER TABLE `RoomQuizzes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -235,7 +238,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (10,'jeremiah','Jeremiah','$2a$12$.R3TWIGZI0ZvOSUdW.jtCuv1BLlrTJPjhDR6ZSPZSMS3OxNsfrq16','user'),(11,'jennifer','Jennifer','$2a$12$0sKZ8TdJ.qdZ1cfaFFJsIutcWrCAC9RZ/B1BeR3dqLWqubUPiRc7u','user'),(12,'Jojon','jojon5','$2b$10$k4px.jl6EylpJyWF4OuU9u4wOfUesp9W.NEvdHWqlf7UER0ku7a8S','user'),(13,'jeremy6','Jeremy','$2b$10$TMBpozM1pGgi6KKHp.hQYeSeODr/gNPbqwb37rzi0ZvOhmRDbiI3.','user'),(14,'jordan6','Jordan','$2b$10$QAxJsJN8XOzaqld0Y2a0aO2kZBqQTJvPOfx8Fsu6n652v6Kwn1LSG','user'),(15,'jenda5','Jenda','$2b$10$GW1x6JXihaWCFX1ASNF/WeMG7gC.qIKs4GPnXs3wy32T.7ZCGOlvu','user'),(16,'jonoUser1','jonoUser1','$2b$10$BniucoWSwgy/LgPvQKIF0uYkglHuRccEZfbsRrhxVv2EziVbSozEy','user'),(17,'jonoUser2','jonoUser2','$2b$10$A5zKpvIL/slGQibKUMtoU.AkLCQuHeCN1xe1vESPX.faowORZ.MPS','user'),(18,'jonoAdmin1','jonoAdmin1','$2b$10$RMchjhPquqH9xir7rLvp6Oo.fD6A3T7.6C636z4scfmyTYlEyl3hi','admin'),(19,'jonoAdmin2','jonoAdmin2','$2b$10$Tp9Od22cl6bCM/PAep0kEuscXhcXzRs8HbhKqsKWSxVvtMGHSXnPe','admin'),(20,'jonoSuperadmin1','jonoSuperadmin1','$2b$10$OVuMNuQNsAQ5.AA17Cdj7undco9.ATMdU7pKcSEfUOsvYgOK/EOvy','superadmin'),(21,'jonoSuperadmin2','jonoSuperadmin2','$2b$10$t45Eju8pX/FFSXznSM/mP./acVMCZZq3yCpd4BeZvjIpAqGb1JEh.','superadmin');
+INSERT INTO `Users` VALUES (10,'jeremiah','Jeremiah','$2a$12$.R3TWIGZI0ZvOSUdW.jtCuv1BLlrTJPjhDR6ZSPZSMS3OxNsfrq16','admin'),(11,'jennifer','Jennifer','$2a$12$0sKZ8TdJ.qdZ1cfaFFJsIutcWrCAC9RZ/B1BeR3dqLWqubUPiRc7u','admin'),(12,'Jojon','jojon5','$2b$10$k4px.jl6EylpJyWF4OuU9u4wOfUesp9W.NEvdHWqlf7UER0ku7a8S','user'),(13,'jeremy6','Jeremy','$2b$10$TMBpozM1pGgi6KKHp.hQYeSeODr/gNPbqwb37rzi0ZvOhmRDbiI3.','user'),(14,'jordan6','Jordan','$2b$10$QAxJsJN8XOzaqld0Y2a0aO2kZBqQTJvPOfx8Fsu6n652v6Kwn1LSG','user'),(15,'jenda5','Jenda','$2b$10$GW1x6JXihaWCFX1ASNF/WeMG7gC.qIKs4GPnXs3wy32T.7ZCGOlvu','user'),(16,'jonoUser1','jonoUser1','$2b$10$BniucoWSwgy/LgPvQKIF0uYkglHuRccEZfbsRrhxVv2EziVbSozEy','user'),(17,'jonoUser2','jonoUser2','$2b$10$A5zKpvIL/slGQibKUMtoU.AkLCQuHeCN1xe1vESPX.faowORZ.MPS','user'),(18,'jonoAdmin1','jonoAdmin1','$2b$10$RMchjhPquqH9xir7rLvp6Oo.fD6A3T7.6C636z4scfmyTYlEyl3hi','admin'),(19,'jonoAdmin2','jonoAdmin2','$2b$10$Tp9Od22cl6bCM/PAep0kEuscXhcXzRs8HbhKqsKWSxVvtMGHSXnPe','admin'),(20,'jonoSuperadmin1','jonoSuperadmin1','$2b$10$OVuMNuQNsAQ5.AA17Cdj7undco9.ATMdU7pKcSEfUOsvYgOK/EOvy','superadmin'),(21,'jonoSuperadmin2','jonoSuperadmin2','$2b$10$t45Eju8pX/FFSXznSM/mP./acVMCZZq3yCpd4BeZvjIpAqGb1JEh.','superadmin');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -248,4 +251,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-24 20:24:34
+-- Dump completed on 2024-04-28 20:33:17
