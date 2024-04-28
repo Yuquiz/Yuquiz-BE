@@ -20,6 +20,9 @@ export default {
     "role_not_authorized": {
         code: 403, message: "You need a higher role to use this endpoint"
     },
+    "private_access": {
+        code: 403, message: "You don't have permission from the owner of this resource!"
+    },
 
     // Bad requests
     "insufficient_data": {
