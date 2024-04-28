@@ -1,6 +1,6 @@
 # Quizin API
 ## 💬 About
-A simple API with CRUD functionality for quiz application
+A simple API implementing CRUD, authentication, and authrization for quiz application
 
 ## Technical Details
 ### 🧰 Stack 
