@@ -68,6 +68,8 @@ export default {
                     + `${TABLE_NAME}.user_id as participant_id, `
                     + `${TABLE_NAME}.room_id as room_id, `
                     + `${JOIN_TABLE_NAME}.id as user_id `
+                    + `"~" as password, `
+                    + `"~" as role `
                 + `FROM ${TABLE_NAME} `
                 + `JOIN ${JOIN_TABLE_NAME} ON ${TABLE_NAME}.user_id = ${JOIN_TABLE_NAME}.id `
                 + `WHERE room_id=? `, 

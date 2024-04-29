@@ -65,7 +65,9 @@ export default {
             db.query(
                 `SELECT ${TABLE_NAME}.*, `
                     + `${JOIN_TABLE_NAME}.id as user_id, `
-                    + `${JOIN_TABLE_NAME}.* `
+                    + `${JOIN_TABLE_NAME}.*, `
+                    + `"~" as password, `
+                    + `"~" as role `
                 + `FROM ${TABLE_NAME} `
                 + `JOIN ${JOIN_TABLE_NAME} ON ${TABLE_NAME}.user_id = ${JOIN_TABLE_NAME}.id `
                 + `WHERE quiz_id=? `, 
