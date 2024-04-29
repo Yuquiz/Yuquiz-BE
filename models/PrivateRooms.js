@@ -1,11 +1,12 @@
 import db from "../configs/db.js";
 
-const TABLE_NAME = "AnswerChoices"
+const TABLE_NAME = "PrivateRooms";
+
 export default {
     getAll: function() {
         return new Promise((resolve, reject) => {
             db.query(`SELECT * FROM ${TABLE_NAME}`, [], (err, result) => {
-                if(err) { return reject({code: "query_error", message: err})}
+                if(err) { return reject({code: "query_error", message: err}); }
 
                 resolve(result);
             });
@@ -15,9 +16,9 @@ export default {
     getById: function(id) {
         return new Promise((resolve, reject) => {
             db.query(`SELECT * FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
-                if(err) { return reject({code: "query_error", message: err})}
+                if(err) { return reject({code: "query_error", message: err}); }
 
-                resolve(result[0]);
+                resolve(result[0])
             });
         })
     },
@@ -25,9 +26,9 @@ export default {
     store: function(data) {
         return new Promise((resolve, reject) => {
             db.query(`INSERT INTO ${TABLE_NAME}(??) VALUES (?)`, data, (err, result) => {
-                if(err) { return reject({code: "query_error", message: err})}
+                if(err) { return reject({code: "query_error", message: err}); }
 
-                resolve(result.insertId)
+                resolve(result.insertId);
             });
         })
     },
@@ -35,26 +36,26 @@ export default {
     edit: function(id, newData) {
         return new Promise((resolve, reject) => {
             db.query(`UPDATE ${TABLE_NAME} SET ? WHERE id=?`, [newData, id], (err, result) => {
-                if(err) { return reject({code: "query_error", message: err})}
+                if(err) { return reject({code: "query_error", message: err}); }
 
                 resolve(result.affectedRows > 0?  
-                    `Updated answerChoice with id:${id}`
-                    : "Nothing to update"
-                )
-            })
+                    `Updated PrivateRoom with id: ${id}`
+                    : "Nothing to update",
+                );
+            });
         })
     },
 
     destroy: function(id) {
         return new Promise((resolve, reject) => {
             db.query(`DELETE FROM ${TABLE_NAME} WHERE id=?`, [id], (err, result) => {
-                if(err) { return reject({code: "query_error", message: err})}
+                if(err) { return reject({code: "query_error", message: err}); }
 
-                resolve(result.affectedRows > 0?  
-                    `Deleted answerChoice with id:${id}`
+                resolve( result.affectedRows > 0?  
+                    `Deleted PrivateRoom with id:${id}`
                     : "Nothing to delete"
-                )
+                );
             });
         })
-    }
+    },
 }

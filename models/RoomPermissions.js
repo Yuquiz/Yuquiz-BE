@@ -1,6 +1,6 @@
 import db from "../configs/db.js";
 
-const TABLE_NAME = "Users";
+const TABLE_NAME = "RoomPermissions";
 
 export default {
     getAll: function() {
@@ -39,7 +39,7 @@ export default {
                 if(err) { return reject({code: "query_error", message: err}); }
 
                 resolve(result.affectedRows > 0?  
-                    `Updated User with id: ${id}`
+                    `Updated RoomPermission with id: ${id}`
                     : "Nothing to update",
                 );
             });
@@ -52,21 +52,53 @@ export default {
                 if(err) { return reject({code: "query_error", message: err}); }
 
                 resolve( result.affectedRows > 0?  
-                    `Deleted user with id:${id}`
+                    `Deleted RoomPermission with id:${id}`
                     : "Nothing to delete"
                 );
             });
         })
     },
 
-    getByUsername: function(username) {
+    usersByRoomId: function(roomId) {
+        const JOIN_TABLE_NAME = "Users"
         return new Promise((resolve, reject) => {
-            db.query(`SELECT * FROM ${TABLE_NAME} WHERE username=?`, [username], (err, result) => {
-                if(err) { return reject({code: "query_error", message: err}); }
-                if(result.length < 1) { return reject({code: "invalid_credentials", message: "No user with provided credentials"}); }
-                
-                resolve(result)
-            })
+            db.query(
+                `SELECT ${TABLE_NAME}.*, `
+                    + `${JOIN_TABLE_NAME}.*, `
+                    + `${TABLE_NAME}.user_id as participant_id, `
+                    + `${TABLE_NAME}.room_id as room_id, `
+                    + `${JOIN_TABLE_NAME}.id as user_id `
+                    + `"~" as password, `
+                    + `"~" as role `
+                + `FROM ${TABLE_NAME} `
+                + `JOIN ${JOIN_TABLE_NAME} ON ${TABLE_NAME}.user_id = ${JOIN_TABLE_NAME}.id `
+                + `WHERE room_id=? `, 
+                [roomId], (err, result) => {
+                    if(err) { return reject({code: "query_error", message:err})}
+
+                    resolve(result);
+                }
+            );
         })
-    }
+    },
+
+    roomByUserId: function(userId) {
+        const JOIN_TABLE_NAME = "PrivateRooms";
+        return new Promise((resolve, reject) => {
+            db.query(
+                `SELECT ${TABLE_NAME}.*, `
+                    + `${JOIN_TABLE_NAME}.*, `
+                    + `${TABLE_NAME}.user_id as participant_id, `
+                    + `${TABLE_NAME}.room_id as room_id `
+                + `FROM ${TABLE_NAME} `
+                + `JOIN ${JOIN_TABLE_NAME} ON ${TABLE_NAME}.room_id = ${JOIN_TABLE_NAME}.id `
+                + `WHERE ${TABLE_NAME}.user_id=? `, 
+                [userId], (err, result) => {
+                    if(err) { return reject({code: "query_error", message:err})}
+
+                    resolve(result);
+                }
+            );
+        })
+    },
 }

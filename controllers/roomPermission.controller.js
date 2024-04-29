@@ -1,12 +1,12 @@
-import model from "../models/Questions.js";
+import model from "../models/RoomPermissions.js";
 
-const FILLABLES = ["quiz_id", "text", "point"];
+const FILLABLES = ["user_id", "room_id", "score"];
 
 export default {
     index: async function(req, res, next) {
         await model.getAll()
             .then(result => res.send({
-                msg: "Question fetch success",
+                msg: "RoomPermission fetch success",
                 data: result
             }))
             .catch(err => next(err));
@@ -15,7 +15,7 @@ export default {
     getOne: async function(req, res, next) {
         await model.getById(req.params.id)
             .then(result => res.send({
-                msg: "Question fetch success",
+                msg: "RoomPermission fetch success",
                 data: result
             }))
             .catch(err => next(err));
@@ -24,7 +24,7 @@ export default {
     store: async function(req, res, next) {
         const data = [ FILLABLES, FILLABLES.map(key => req.body[key])]
         await model.store(data)
-            .then(result => res.send({ msg: `Question created with id:${result}` }))
+            .then(result => res.send({ msg: `RoomPermission created with id:${result}` }))
             .catch(err => next(err));
     },
 
@@ -46,5 +46,5 @@ export default {
         await model.destroy(req.params.id)
             .then(result => res.send({ msg: result }))
             .catch(err => next(err));
-    }
+    },
 }

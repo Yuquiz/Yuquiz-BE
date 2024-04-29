@@ -1,11 +1,19 @@
 import bcrypt from "bcrypt";
 import model from "../models/Users.js";
-import utils from "./utils.js"
 
 const FILLABLES = ["name", "username", "password"];
 
+async function hashPassword(password) {
+    return new Promise((resolve, reject) => {
+        bcrypt.hash(password, 10, (err, hash) => {
+            if(err) {reject("")}
+            resolve(hash);
+        })
+    })
+}
+
 export default {
-    index: async function(req, res) {
+    index: async function(req, res, next) {
         await model.getAll()
             .then((result) => {
                 return res.send({
@@ -13,13 +21,10 @@ export default {
                     data: result
                 });
             })
-            .catch((err) => {
-                return res.status(500).send({msg: err })
-            });
+            .catch(err => next(err));
     },
 
-    getOne: async function(req, res) {
-        if (utils.isInvalidID(req.params.id, res)) return;
+    getOne: async function(req, res, next) {
         await model.getById(req.params.id)
             .then((result) => {
                 return res.send({
@@ -27,58 +32,38 @@ export default {
                     data: result,
                 });
             })
-            .catch((err) => {
-                return res.status(500).send({msg: err })
-            });
+            .catch(err => next(err));
     },
 
-    store: function(req, res) {
-        const dataComplete = FILLABLES.every(key => req.body[key] != undefined)
-        if(!dataComplete) {
-            return res.status(400).send({ msg: "No required data was given" })
+    store: async function(req, res, next) {
+        req.body["password"] = await hashPassword(req.body["password"]);
+        const data = [ FILLABLES, FILLABLES.map(key => req.body[key])]
+        await model.store(data)
+            .then(result => res.send({ msg: `User created with id:${result}` }))
+            .catch(err => next(err));
+    },
+
+    edit: async function(req, res, next) {
+        Object.keys(req.body).forEach((key) => {
+            if(!FILLABLES.includes(key)) {delete req.body[key]}
+        })
+
+        if(Object.keys(req.body).length == 0) {
+            return next({code: "insufficient_data", reason: "No data to process"})
         }
 
-        bcrypt.hash(req.body["password"], 10, async function(err, hash) {
-            if(err) { return res.status(500).send({ msg: err }) }
-
-            req.body["password"] = hash;
-            await model.store(FILLABLES.map(key => req.body[key]))
-                .then((result) => {
-                    return res.send({ msg: `User created with id ${result}` })
-                })
-                .catch((err) => {
-                    return res.status(500).send({msg: err});
-                });
-        })
-    },
-
-    edit: async function(req, res) {
-        if (utils.isInvalidID(req.params.id, res)) return;
-        if (utils.isBodyEmpty(req.body, res)) return;
-        if (utils.hasUnexpectedKey(Object.keys(req.body), FILLABLES, res)) return;
-
-        const hasChangeData = FILLABLES.some(key => req.body[key] != undefined)
-        if(!hasChangeData) {
-            return res.status(400).send({ msg: "No change data was given" })
+        if(req.body["password"] != undefined) {
+            req.body["password"] = await hashPassword(newPass);
         }
 
         await model.edit(req.params.id, req.body)
-            .then((result) => {
-                return res.send({ msg: result })
-            })
-            .catch((err) => {
-                return res.status(500).send({msg: err})
-            });
+            .then(result => res.send({msg: result}))
+            .catch(err =>  next(err));
     },
 
-    destroy: async function(req, res) {
-        if (utils.isInvalidID(req.params.id, res)) return;
+    destroy: async function(req, res, next) {
         await model.destroy(req.params.id)
-            .then((result) => {
-                return res.send({msg: result});
-            })
-            .catch((err) => {
-                return res.status(500).send({msg: err });
-            });
+            .then(result => res.send({msg: result}))
+            .catch(err => next(err));
     }
 }

@@ -1,6 +1,7 @@
 import express from "express";
-import controller from "../controllers/question.controller.js"
+import controller from "../controllers/roomPermission.controller.js"
 import roleAccessWare from "../middlewares/roleAccess.js";
+import roomPermissionWare from "../middlewares/roomPermissionAccess.js";
 const ROUTER = express.Router();
 
 ROUTER.get("/", roleAccessWare, controller.index); // Get all
