@@ -110,7 +110,7 @@ DROP TABLE IF EXISTS `Questions`;
 CREATE TABLE `Questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `quiz_id` int(11) NOT NULL,
-  `text` text NOT NULL DEFAULT 'Sample Question',
+  `text` varchar(5096) DEFAULT 'Sample Choice',
   `point` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `quiz_ID` (`quiz_id`),
@@ -153,7 +153,7 @@ CREATE TABLE `Quizzes` (
 
 LOCK TABLES `Quizzes` WRITE;
 /*!40000 ALTER TABLE `Quizzes` DISABLE KEYS */;
-INSERT INTO `Quizzes` VALUES (6,10,'Mathematics',15,'public'),(7,11,'Geography',10,'public'),(8,11,'Economy',5,'public'),(11,11,'testDrive',100,'public'),(12,18,'quizAdmin1',69,'public'),(13,19,'quizAdmin2',69,'public'),(14,19,'quizAdmin2_1',69,'public');
+INSERT INTO `Quizzes` VALUES (6,10,'Mathematics',15,'public'),(7,11,'Geography',10,'private'),(8,11,'Economy',5,'public'),(11,11,'testDrive',100,'public'),(12,18,'quizAdmin1',69,'public'),(13,19,'quizAdmin2',69,'public'),(14,19,'quizAdmin2_1',69,'public');
 /*!40000 ALTER TABLE `Quizzes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,7 +238,7 @@ CREATE TABLE `Users` (
 
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (10,'jeremiah','Jeremiah','$2a$12$.R3TWIGZI0ZvOSUdW.jtCuv1BLlrTJPjhDR6ZSPZSMS3OxNsfrq16','admin'),(11,'jennifer','Jennifer','$2a$12$0sKZ8TdJ.qdZ1cfaFFJsIutcWrCAC9RZ/B1BeR3dqLWqubUPiRc7u','admin'),(12,'Jojon','jojon5','$2b$10$k4px.jl6EylpJyWF4OuU9u4wOfUesp9W.NEvdHWqlf7UER0ku7a8S','user'),(13,'jeremy6','Jeremy','$2b$10$TMBpozM1pGgi6KKHp.hQYeSeODr/gNPbqwb37rzi0ZvOhmRDbiI3.','user'),(14,'jordan6','Jordan','$2b$10$QAxJsJN8XOzaqld0Y2a0aO2kZBqQTJvPOfx8Fsu6n652v6Kwn1LSG','user'),(15,'jenda5','Jenda','$2b$10$GW1x6JXihaWCFX1ASNF/WeMG7gC.qIKs4GPnXs3wy32T.7ZCGOlvu','user'),(16,'jonoUser1','jonoUser1','$2b$10$BniucoWSwgy/LgPvQKIF0uYkglHuRccEZfbsRrhxVv2EziVbSozEy','user'),(17,'jonoUser2','jonoUser2','$2b$10$A5zKpvIL/slGQibKUMtoU.AkLCQuHeCN1xe1vESPX.faowORZ.MPS','user'),(18,'jonoAdmin1','jonoAdmin1','$2b$10$RMchjhPquqH9xir7rLvp6Oo.fD6A3T7.6C636z4scfmyTYlEyl3hi','admin'),(19,'jonoAdmin2','jonoAdmin2','$2b$10$Tp9Od22cl6bCM/PAep0kEuscXhcXzRs8HbhKqsKWSxVvtMGHSXnPe','admin'),(20,'jonoSuperadmin1','jonoSuperadmin1','$2b$10$OVuMNuQNsAQ5.AA17Cdj7undco9.ATMdU7pKcSEfUOsvYgOK/EOvy','superadmin'),(21,'jonoSuperadmin2','jonoSuperadmin2','$2b$10$t45Eju8pX/FFSXznSM/mP./acVMCZZq3yCpd4BeZvjIpAqGb1JEh.','superadmin');
+INSERT INTO `Users` VALUES (10,'jeremiah','Jeremiah','$2a$12$.R3TWIGZI0ZvOSUdW.jtCuv1BLlrTJPjhDR6ZSPZSMS3OxNsfrq16','admin'),(11,'jennifer','Jennifer','$2a$12$0sKZ8TdJ.qdZ1cfaFFJsIutcWrCAC9RZ/B1BeR3dqLWqubUPiRc7u','admin'),(12,'jojon5','jojon5','$2b$10$k4px.jl6EylpJyWF4OuU9u4wOfUesp9W.NEvdHWqlf7UER0ku7a8S','user'),(13,'jeremy6','Jeremy','$2b$10$TMBpozM1pGgi6KKHp.hQYeSeODr/gNPbqwb37rzi0ZvOhmRDbiI3.','user'),(14,'jordan6','Jordan','$2b$10$QAxJsJN8XOzaqld0Y2a0aO2kZBqQTJvPOfx8Fsu6n652v6Kwn1LSG','user'),(15,'jenda5','Jenda','$2b$10$GW1x6JXihaWCFX1ASNF/WeMG7gC.qIKs4GPnXs3wy32T.7ZCGOlvu','user'),(16,'jonoUser1','jonoUser1','$2b$10$BniucoWSwgy/LgPvQKIF0uYkglHuRccEZfbsRrhxVv2EziVbSozEy','user'),(17,'jonoUser2','jonoUser2','$2b$10$A5zKpvIL/slGQibKUMtoU.AkLCQuHeCN1xe1vESPX.faowORZ.MPS','user'),(18,'jonoAdmin1','jonoAdmin1','$2b$10$RMchjhPquqH9xir7rLvp6Oo.fD6A3T7.6C636z4scfmyTYlEyl3hi','admin'),(19,'jonoAdmin2','jonoAdmin2','$2b$10$Tp9Od22cl6bCM/PAep0kEuscXhcXzRs8HbhKqsKWSxVvtMGHSXnPe','admin'),(20,'jonoSuperadmin1','jonoSuperadmin1','$2b$10$OVuMNuQNsAQ5.AA17Cdj7undco9.ATMdU7pKcSEfUOsvYgOK/EOvy','superadmin'),(21,'jonoSuperadmin2','jonoSuperadmin2','$2b$10$t45Eju8pX/FFSXznSM/mP./acVMCZZq3yCpd4BeZvjIpAqGb1JEh.','superadmin');
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -251,4 +251,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-28 20:33:17
+-- Dump completed on 2024-04-29 12:48:11
