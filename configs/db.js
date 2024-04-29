@@ -8,7 +8,7 @@ const connection = mysql.createPool({ // https://github.com/mysqljs/mysql#connec
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     port: process.env.DB_PORT,
-    connectTimeout: 10001 // https://stackoverflow.com/questions/35553432/error-handshake-inactivity-timeout-in-node-js-mysql-module
+    connectTimeout: 60 * 1000 // https://stackoverflow.com/questions/35553432/error-handshake-inactivity-timeout-in-node-js-mysql-module
 })
 
 export default {
