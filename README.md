@@ -1,7 +1,8 @@
 # Quizin 📑
 A simple API implementing CRUD, authentication, and authrization for quiz application
+<br> ![Lorem](#schema-)
 
-## Stack 🧰 
+## Stack 🧰
 ![JavaScript Badge](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=000&style=for-the-badge)
 ![Node.js Badge](https://img.shields.io/badge/Node.js-393?logo=nodedotjs&logoColor=fff&style=for-the-badge)
 ![Express Badge](https://img.shields.io/badge/Express-000?logo=express&logoColor=fff&style=for-the-badge) 
