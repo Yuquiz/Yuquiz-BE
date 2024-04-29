@@ -5,7 +5,7 @@ import {PERMISSIONS} from "../configs/roomPermissions.config.js"
 export default async function(req, res, next) {
     const ENDPOINT = "room";
     let error = null;
-    let hasPermission = req.role == "superadmin"; // Superadmin bypasses all ownership verification
+    let hasPermission = req.role != "user"; // Superadmin and admin bypasses ownership verification
 
     if(!hasPermission) { 
         await room.getById(req.params.id) // Is current user the owner of this room?
