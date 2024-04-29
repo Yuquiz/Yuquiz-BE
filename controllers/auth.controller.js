@@ -5,6 +5,7 @@ dotenv.config();
 
 import Users from "../models/Users.js";
 
+const FILLABLES = ["name", "username", "password"];
 function generateToken(userInfo, onError, onSuccess) {
     jwt.sign(
         userInfo, 
@@ -28,8 +29,9 @@ export default {
                 bcrypt.hash(req.body["password"], 10, (err, hashed) => {
                     if(err) { return next({code: "internal_error", message: err.message}) }
 
-                    const newUserData = ["name", "username"].map(key => req.body[key]);
-                    newUserData.push(hashed);
+                    req.body["password"] = hashed
+                    const newUserData = [FILLABLES, FILLABLES.map(key => req.body[key])];
+
                     Users.store(newUserData)
                         .then(storeId => generateToken( 
                             { id: storeId, role: "user" }, next,
