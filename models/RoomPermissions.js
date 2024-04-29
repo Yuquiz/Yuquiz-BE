@@ -59,7 +59,7 @@ export default {
         })
     },
 
-    usersByRoomId: function(RoomId) {
+    usersByRoomId: function(roomId) {
         const JOIN_TABLE_NAME = "Users"
         return new Promise((resolve, reject) => {
             db.query(
@@ -71,7 +71,7 @@ export default {
                 + `FROM ${TABLE_NAME} `
                 + `JOIN ${JOIN_TABLE_NAME} ON ${TABLE_NAME}.user_id = ${JOIN_TABLE_NAME}.id `
                 + `WHERE room_id=? `, 
-                [quizId], (err, result) => {
+                [roomId], (err, result) => {
                     if(err) { return reject({code: "query_error", message:err})}
 
                     resolve(result);
