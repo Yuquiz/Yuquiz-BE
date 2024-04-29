@@ -21,7 +21,7 @@ A simple API implementing CRUD, authentication, and authorization for quiz appli
 ## Schema 🗺
 ![Quizzin Schema](./misc/quizSchema.png)
 
-## Endpoints
+## Endpoints 📍
 List of endpoints of this API
 ### `/auth`
 - `/login`: Log in to your registered account
@@ -64,5 +64,131 @@ List of endpoints of this API
     <br> - Role: Any
   - DELETE
     <br> - Requires: Valid JWT Token which has `id` data that matches `userId`
+    <br> - Role: Superadmin
+### `/quiz`
+- `/` - Get all data from `Quizzes`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Admin, superadmin
+- `/:quizId` - Do something on `Quizzes` with id `quizId`
+  - GET
+    <br> - Requires: - Valid JWT Token which has `id` data that matches `quizId`
+    <br> - Role: Any
+  - POST
+    <br> - Requires: Valid JWT Token which has `id` data that matches `quizId`
+    <br> - Role: Superadmin
+  - PUT
+    <br> - Requires: Valid JWT Token which has `id` data that matches `quizId`
+    <br> - Role: Any
+  - DELETE
+    <br> - Requires: Valid JWT Token which has `id` data that matches `quizId`
+    <br> - Role: Superadmin
+### `/question`
+- `/` - Get all data from `Questions`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Admin, superadmin
+- `/:questionId` - Do something on `Questions` with id `questionId`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - POST
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+  - PUT
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - DELETE
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+### `/answer`
+- `/` - Get all data from `AnswerChoices`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Admin, superadmin
+- `/:answerId` - Do something on `AnswerChoices` with id `answerId`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - POST
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+  - PUT
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - DELETE
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+### `/attempts`
+- `/` - Get all data from `Attempts`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Admin, superadmin
+- `/:attemptId` - Do something on `Attempts` with id `attemptId`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - POST
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+  - PUT
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - DELETE
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+### `/room`
+- `/` - Get all data from `PrivateRooms`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Admin, superadmin
+- `/:roomId` - Do something on `PrivateRooms` with id `roomId`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - POST
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+  - PUT
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - DELETE
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+### `/roomPermission`
+- `/` - Get all data from `RoomPermissions`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Admin, superadmin
+- `/:roomPermissionId` - Do something on `RoomPermissions` with id `roomPermissionId`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - POST
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+  - PUT
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - DELETE
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+### `/roomQuiz`
+- `/` - Get all data from `RoomQuizzes`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Admin, superadmin
+- `/:roomQuizId` - Do something on `RoomQuizzes` with id `roomQuizId`
+  - GET
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - POST
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
+  - PUT
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Any
+  - DELETE
+    <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
 
