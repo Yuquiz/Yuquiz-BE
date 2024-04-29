@@ -54,16 +54,16 @@ List of endpoints of this API
     <br> - Role: Superadmin
 - `/:userId` - Do something on `Users` with id `userId`
   - GET
-    <br> - Requires: Valid JWT Token which has `id` data that matches `userId`
+    <br> - Requires: Valid JWT Token with `id` that matches `userId`
     <br> - Role: Any
   - POST
-    <br> - Requires: Valid JWT Token which has `id` data that matches `userId`
+    <br> - Requires: Valid JWT Token with `id` that matches `userId`
     <br> - Role: Superadmin
   - PUT
-    <br> - Requires: Valid JWT Token which has `id` data that matches `userId`
+    <br> - Requires: Valid JWT Token with `id` that matches `userId`
     <br> - Role: Any
   - DELETE
-    <br> - Requires: Valid JWT Token which has `id` data that matches `userId`
+    <br> - Requires: Valid JWT Token with `id` that matches `userId`
     <br> - Role: Superadmin
 ### `/quiz`
 - `/` - Get all data from `Quizzes`
@@ -72,16 +72,16 @@ List of endpoints of this API
     <br> - Role: Admin, superadmin
 - `/:quizId` - Do something on `Quizzes` with id `quizId`
   - GET
-    <br> - Requires: - Valid JWT Token which has `id` data that matches `quizId`
+    <br> - Requires: Valid JWT Token, Permission to `Quizzes` with id `quizId` (admin and superadmin bypasses this)
     <br> - Role: Any
   - POST
-    <br> - Requires: Valid JWT Token which has `id` data that matches `quizId`
+    <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
   - PUT
-    <br> - Requires: Valid JWT Token which has `id` data that matches `quizId`
-    <br> - Role: Any
+    <br> - Requires: Valid JWT Token
+    <br> - Role: Superadmin
   - DELETE
-    <br> - Requires: Valid JWT Token which has `id` data that matches `quizId`
+    <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
 ### `/question`
 - `/` - Get all data from `Questions`
@@ -97,7 +97,7 @@ List of endpoints of this API
     <br> - Role: Superadmin
   - PUT
     <br> - Requires: Valid JWT Token
-    <br> - Role: Any
+    <br> - Role: Superadmin
   - DELETE
     <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
@@ -115,7 +115,7 @@ List of endpoints of this API
     <br> - Role: Superadmin
   - PUT
     <br> - Requires: Valid JWT Token
-    <br> - Role: Any
+    <br> - Role: Superadmin
   - DELETE
     <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
@@ -133,7 +133,7 @@ List of endpoints of this API
     <br> - Role: Superadmin
   - PUT
     <br> - Requires: Valid JWT Token
-    <br> - Role: Any
+    <br> - Role: Superadmin
   - DELETE
     <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
@@ -144,14 +144,14 @@ List of endpoints of this API
     <br> - Role: Admin, superadmin
 - `/:roomId` - Do something on `PrivateRooms` with id `roomId`
   - GET
-    <br> - Requires: Valid JWT Token
+    <br> - Requires: Valid JWT Token, Permission to `PrivateRoom` with id `roomId` (admin and superadmin bypasses this)
     <br> - Role: Any
   - POST
     <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
   - PUT
     <br> - Requires: Valid JWT Token
-    <br> - Role: Any
+    <br> - Role: Superadmin
   - DELETE
     <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
@@ -169,7 +169,7 @@ List of endpoints of this API
     <br> - Role: Superadmin
   - PUT
     <br> - Requires: Valid JWT Token
-    <br> - Role: Any
+    <br> - Role: Superadmin
   - DELETE
     <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
@@ -180,14 +180,14 @@ List of endpoints of this API
     <br> - Role: Admin, superadmin
 - `/:roomQuizId` - Do something on `RoomQuizzes` with id `roomQuizId`
   - GET
-    <br> - Requires: Valid JWT Token
+    <br> - Requires: Valid JWT Token, Permission to `PrivateRoom` with id `roomId` (admin and superadmin bypasses this)
     <br> - Role: Any
   - POST
     <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
   - PUT
     <br> - Requires: Valid JWT Token
-    <br> - Role: Any
+    <br> - Role: Superadmin
   - DELETE
     <br> - Requires: Valid JWT Token
     <br> - Role: Superadmin
