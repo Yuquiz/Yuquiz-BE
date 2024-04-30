@@ -23,9 +23,9 @@ ROUTER.use("/room", jwtAuthWare, privateRoom);
 ROUTER.use("/roomPermission", jwtAuthWare, roomPermission);
 ROUTER.use("/roomQuiz", jwtAuthWare, roomQuiz);
 
-ROUTER.use("/", (req, res) => res.send({msg: "Welcome to Quizin!"}));
 ROUTER.use("/auth", auth);
 ROUTER.use("/app", app);
+ROUTER.use("/", (req, res) => res.send({msg: "Welcome to Quizin!"}));
 
 export default ROUTER;
 
