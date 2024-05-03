@@ -8,7 +8,7 @@ export const PERMISSIONS = {
         "quiz": ["GET", "POST", "PUT", "DELETE"],
         "question": ["GET", "POST", "PUT", "DELETE"],
         "answer": ["GET", "POST", "PUT", "DELETE"],
-        "attempts": ["GET", "POST", "PUT", "DELETE"],
+        "attempt": ["GET", "POST", "PUT", "DELETE"],
         "room": ["GET", "POST", "PUT", "DELETE"],
         "roomPermission": ["GET", "POST", "PUT", "DELETE"],
         "roomQuiz": ["GET", "POST", "PUT", "DELETE"],
@@ -18,7 +18,7 @@ export const PERMISSIONS = {
         "quiz": ["GET"],
         "question": ["GET"],
         "answer": ["GET"],
-        "attempts": ["GET"],
+        "attempt": ["GET"],
         "room": ["GET"],
         "roomPermission": ["GET"],
         "roomQuiz": ["GET"],
@@ -28,8 +28,9 @@ export const PERMISSIONS = {
         "quiz": ["GET"],
         "question": ["GET"],
         "answer": ["GET"],
+        "attempt": [],
         "room": ["GET", "POST"],
-        "roomPermission": ["GET"],
+        "roomPermission": [],
         "roomQuiz": ["GET"],
     }
 };
