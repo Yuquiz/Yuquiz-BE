@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Quizin API
   description: An API for simple Quiz Application
-  version: 0.1.9
+  version: 0.1
 components:
   securitySchemes:
     bearerAuth:
@@ -253,6 +253,7 @@ paths:
                 msg: Hello july (U#24)!
                 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzE0Njk2ODkxLCJleHAiOjE3MTQ2OTg2OTF9.ollvG0DbNTZK97unyXBmp4XiM9oq-iqWsS40Ennnqag
 
+  # USER ENDPOINT
   /user:
     get:
       tags:
@@ -382,13 +383,11 @@ paths:
               example:  
                 msg: "User data fetch success"
                 data: {
-                  "data": {
-                    "id": 10,
-                    "username": "jeremiah",
-                    "name": "Jeremiah",
-                    "password": "$2a$12$.R3TWIGZI0ZvOSUdW.jtCuv1BLlrTJPjhDR6ZSPZSMS3OxNsfrq16",
-                    "role": "admin",
-                  }
+                  "id": 10,
+                  "username": "jeremiah",
+                  "name": "Jeremiah",
+                  "password": "$2a$12$.R3TWIGZI0ZvOSUdW.jtCuv1BLlrTJPjhDR6ZSPZSMS3OxNsfrq16",
+                  "role": "admin",
                 }
     put:
       tags:
@@ -458,3 +457,410 @@ paths:
                       type: string
               example:  
                 msg: "Deleted user with id: 10"
+
+  # QUIZ ENDPOINT
+  /quiz:
+    get:
+      tags:
+        - Quizzes
+      summary: Returns the data of all quizzes.
+      description: > 
+        Returns all of `Quizzes` data. 
+        You need a token and your role must be in `["Superadmin", "Admin"]`
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: A JSON array of Quizzes' data
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                    data: 
+                      type: array
+              example: 
+                msg: "quiz data fetch success"
+                data: [
+                  {
+                    "id": 6,
+                    "user_id": 10,
+                    "name": "Mathematics",
+                    "duration": 15,
+                    "visibility": "public",
+                  },
+                  {
+                    "id": 7,
+                    "user_id": 11,
+                    "name": "Geography",
+                    "duration": 10,
+                    "visibility": "private",
+                  },
+                ]
+    post:
+      tags:
+        - Quizzes
+      summary: Creates an instance of `Quizzes` in database
+      description: >
+        Creates a record in `Quizzes` with request body as its data. Note that the propery `duration`
+        is on minute unit. That means, `duration: 60` means the duration would be an hour.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                name: 
+                  type: string
+                duration: 
+                  type: integer
+                visibility: 
+                  type: string
+              example:
+                user_id: 10
+                name: Calculus
+                duration: 60
+                visibility: private
+      responses:
+        '200':    # status code
+          description: quiz data has been successfully inserted to `Quizzes`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "quiz created with id:26"
+
+
+  /quiz/{quizId}:
+    get:
+      tags:
+        - Quizzes
+      summary: Returns the data of a quiz
+      description: > 
+        Returns the data of quiz with id of `quizId`. In order to be displayed, the `visibility` of
+        the quiz has to be set to `public`. If the `visibility` is `private`, only the owner could
+        use this endpoint. If user want to access this, they have to access via `roomQuiz` endpoint by
+        providing the appropiate `quiz_id` and `room_id` which requires the owner to assign the quiz
+        into a `PrivateRoom`. If your role is in `["Superadmin", "Admin"]`, then you can bypass 
+        this restriction
+      parameters:
+        - in: path
+          name: quizId
+          type: integer
+          required: true
+          description: The id of the existing quiz
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: quiz data with id of `quizId`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                    data:
+                      type: object
+                      properties:
+                        id: 
+                          type: integer
+                        user_id:
+                          type: integer
+                        name: 
+                          type: string
+                        duration: 
+                          type: integer
+                        visibility: 
+                          type: string
+              example:  
+                msg: "quiz data fetch success"
+                data: {
+                  "id": 6,
+                  "user_id": 10,
+                  "name": "Mathematics",
+                  "duration": 15,
+                  "visibility": "public",
+                }
+    put:
+      tags:
+        - Quizzes
+      summary: Edits quiz data with `id` of `quizId`
+      description: > 
+        Updates quiz data with `id` of `quizId`.  Your role must be "Superadmin"
+      parameters:
+        - in: path
+          name: quizId
+          type: integer
+          required: true
+          description: The id of the existing quiz
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                name: 
+                  type: string
+                duration: 
+                  type: integer
+                visibility: 
+                  type: string
+              example:
+                user_id: 10
+                name: Calculus
+                duration: 60
+                visibility: private
+      responses:
+        '200':    # status code
+          description: quiz data has been successfully updated
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "Updated quiz with id: 10"
+    delete:
+      tags:
+        - Quizzes
+      summary: Deletes quiz data with `id` of `quizId`
+      description: > 
+        Deletes quiz data with `id` of `quizId`.  Your role must be "Superadmin"
+      parameters:
+        - in: path
+          name: quizId
+          type: integer
+          required: true
+          description: The id of the existing quiz
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: quiz data has been successfully deleted from `Quizzes`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "Deleted quiz with id: 10"
+
+  # QUESTION ENDPOINT
+  /question:
+    get:
+      tags:
+        - Questions
+      summary: Returns the data of all questions.
+      description: > 
+        Returns all of `Questions` data. 
+        You need a token and your role must be in `["Superadmin", "Admin"]`
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: A JSON array of Questions' data
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                    data: 
+                      type: array
+              example: 
+                msg: "question data fetch success"
+                data: [
+                  {
+                    "id": 5,
+                    "quiz_id": 6,
+                    "text": "1 + 1 = ...",
+                    "point": 10,
+                  },
+                  {
+                    "id": 6,
+                    "quiz_id": 6,
+                    "text": "How many sides does a hexagon have?",
+                    "point": 5,
+                  },
+                ]
+    post:
+      tags:
+        - Questions
+      summary: Creates an instance of `Questions` in database
+      description: >
+        Creates a record in `Questions` with request body as its data. Note that the propery `duration`
+        is on minute unit. That means, `duration: 60` means the duration would be an hour.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quiz_id:
+                  type: integer
+                text: 
+                  type: string
+                point: 
+                  type: integer
+              example:
+                quiz_id: 10
+                text: What's the derivative of sin(x)?
+                point: 10
+      responses:
+        '200':    # status code
+          description: question data has been successfully inserted to `Questions`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "question created with id:26"
+
+
+  /question/{questionId}:
+    get:
+      tags:
+        - Questions
+      summary: Returns the data of a question
+      description: > 
+        Returns the data of question with id of `questionId`. In order to be displayed, the `visibility` of
+        the question has to be set to `public`. If the `visibility` is `private`, only the owner could
+        use this endpoint. If user want to access this, they have to access via `roomquestion` endpoint by
+        providing the appropiate `question_id` and `room_id` which requires the owner to assign the question
+        into a `PrivateRoom`. If your role is in `["Superadmin", "Admin"]`, then you can bypass 
+        this restriction
+      parameters:
+        - in: path
+          name: questionId
+          type: integer
+          required: true
+          description: The id of the existing question
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: question data with id of `questionId`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                    data:
+                      type: object
+                      properties:
+                        id: 
+                          type: integer
+                        quiz_id:
+                          type: integer
+                        text: 
+                          type: string
+                        point: 
+                          type: integer
+              example:  
+                msg: "question data fetch success"
+                data: {
+                  "id": 6,
+                  "quiz_id": 6,
+                  "text": "How many sides does a hexagon have?",
+                  "point": 5,
+                }
+    put:
+      tags:
+        - Questions
+      summary: Edits question data with `id` of `questionId`
+      description: > 
+        Updates question data with `id` of `questionId`.  Your role must be "Superadmin"
+      parameters:
+        - in: path
+          name: questionId
+          type: integer
+          required: true
+          description: The id of the existing question
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quiz_id:
+                  type: integer
+                text: 
+                  type: string
+                point: 
+                  type: integer
+              example:
+                quiz_id: 10
+                text: What's the derivative of sin(x)?
+                point: 10
+      responses:
+        '200':    # status code
+          description: question data has been successfully updated
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "Updated question with id: 10"
+    delete:
+      tags:
+        - Questions
+      summary: Deletes question data with `id` of `questionId`
+      description: > 
+        Deletes question data with `id` of `questionId`.  Your role must be "Superadmin"
+      parameters:
+        - in: path
+          name: questionId
+          type: integer
+          required: true
+          description: The id of the existing question
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: question data has been successfully deleted from `Questions`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "Deleted question with id: 10"
