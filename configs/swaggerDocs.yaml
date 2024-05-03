@@ -864,3 +864,391 @@ paths:
                       type: string
               example:  
                 msg: "Deleted question with id: 10"
+
+  # ANSWER ENDPOINT
+  /answer:
+    get:
+      tags:
+        - Answers
+      summary: Returns the data of all answers.
+      description: > 
+        Returns all of `Answers` data. Your role must be in `["Superadmin", "Admin"]`
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: A JSON array of `Answers` data
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                    data: 
+                      type: array
+              example: 
+                msg: "answer data fetch success"
+                data: [
+                    {
+                      "id": 6,
+                      "question_id": 5,
+                      "text": "2",
+                      "isCorrect": 1,
+                    },
+                    {
+                      "id": 7,
+                      "question_id": 5,
+                      "text": "69",
+                      "isCorrect": 0,
+                    },
+                ]
+    post:
+      tags:
+        - Answers
+      summary: Creates an instance of `Answers` in database
+      description: >
+        Creates a record in `Answers` with request body as its data. Note that the propery `duration`
+        is on minute unit. That means, `duration: 60` means the duration would be an hour.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: 
+                  type: integer
+                question_id:
+                  type: integer
+                text: 
+                  type: string
+                isCorrect: 
+                  type: boolean
+              example:
+                question_id: 10
+                text: What's the derivative of sin(x)?
+                isCorrect: 10
+      responses:
+        '200':    # status code
+          description: answer data has been successfully inserted to `Answers`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "answer created with id:26"
+
+
+  /answer/{answerId}:
+    get:
+      tags:
+        - Answers
+      summary: Returns the data of a answer
+      description: > 
+        Returns the data of answer with id of `answerId`
+      parameters:
+        - in: path
+          name: answerId
+          type: integer
+          required: true
+          description: The id of the existing answer
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: answer data with id of `answerId`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                    data:
+                      type: object
+                      properties:
+                        id: 
+                          type: integer
+                        question_id:
+                          type: integer
+                        text: 
+                          type: string
+                        isCorrect: 
+                          type: boolean
+              example:  
+                msg: "answer data fetch success"
+                data: {
+                  "id": 6,
+                  "question_id": 5,
+                  "text": "2",
+                  "isCorrect": 1,
+                }
+
+    put:
+      tags:
+        - Answers
+      summary: Edits answer data with `id` of `answerId`
+      description: > 
+        Updates answer data with `id` of `answerId`.  Your role must be "Superadmin"
+      parameters:
+        - in: path
+          name: answerId
+          type: integer
+          required: true
+          description: The id of the existing answer
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question_id:
+                  type: integer
+                text: 
+                  type: string
+                isCorrect: 
+                  type: boolean
+              example:
+                question_id: 5
+                text: cos(x)
+                isCorrect: 1
+      responses:
+        '200':    # status code
+          description: answer data has been successfully updated
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "Updated answer with id: 10"
+    delete:
+      tags:
+        - Answers
+      summary: Deletes answer data with `id` of `answerId`
+      description: > 
+        Deletes answer data with `id` of `answerId`.  Your role must be "Superadmin"
+      parameters:
+        - in: path
+          name: answerId
+          type: integer
+          required: true
+          description: The id of the existing answer
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: answer data has been successfully deleted from `Answers`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "Deleted answer with id: 10"
+
+  # ATTEMPT ENDPOINT
+  /attempt:
+    get:
+      tags:
+        - Attempts
+      summary: Returns the data of all attempts.
+      description: > 
+        Returns all of `Attempts` data. Your role must be in `["Superadmin", "Admin"]`
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: A JSON array of `Attempts` data
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                    data: 
+                      type: array
+              example: 
+                msg: "attempt data fetch success"
+                data: [
+                  {
+                    "id": 1,
+                    "user_id": 12,
+                    "quiz_id": 6,
+                    "score": 10,
+                  },
+                  {
+                    "id": 2,
+                    "user_id": 13,
+                    "quiz_id": 8,
+                    "score": 1,
+                  },
+                ]
+    post:
+      tags:
+        - Attempts
+      summary: Creates an instance of `Attempts` in database
+      description: >
+        Creates a record in `Attempts` with request body as its data. Your role must be
+        in `["Superadmin", "Admin"]` to access this.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                quiz_id: 
+                  type: integer
+                score: 
+                  type: integer
+              example:
+                user_id: 13
+                quiz_id: 8
+                score: 8
+      responses:
+        '200':    # status code
+          description: attempt data has been successfully inserted to `Attempts`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "attempt created with id:26"
+
+
+  /attempt/{attemptId}:
+    get:
+      tags:
+        - Attempts
+      summary: Returns the data of a attempt
+      description: > 
+        Returns the data of attempt with id of `attemptId`
+      parameters:
+        - in: path
+          name: attemptId
+          type: integer
+          required: true
+          description: The id of the existing attempt
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: attempt data with id of `attemptId`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                    data:
+                      type: object
+                      properties:
+                        id: 
+                          type: integer
+                        user_id:
+                          type: integer
+                        quiz_id: 
+                          type: integer
+                        score: 
+                          type: integer
+              example:  
+                msg: "attempt data fetch success"
+                data: {
+                  "id": 1,
+                  "user_id": 12,
+                  "quiz_id": 6,
+                  "score": 10,
+                }
+
+    put:
+      tags:
+        - Attempts
+      summary: Edits attempt data with `id` of `attemptId`
+      description: > 
+        Updates attempt data with `id` of `attemptId`.  Your role must be "Superadmin"
+      parameters:
+        - in: path
+          name: attemptId
+          type: integer
+          required: true
+          description: The id of the existing attempt
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                  user_id:
+                    type: integer
+                  quiz_id: 
+                    type: integer
+                  score: 
+                    type: integer
+              example:
+                user_id: 12
+                quiz_id: 6
+                score: 10
+      responses:
+        '200':    # status code
+          description: attempt data has been successfully updated
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "Updated attempt with id: 10"
+    delete:
+      tags:
+        - Attempts
+      summary: Deletes attempt data with `id` of `attemptId`
+      description: > 
+        Deletes attempt data with `id` of `attemptId`.  Your role must be "Superadmin"
+      parameters:
+        - in: path
+          name: attemptId
+          type: integer
+          required: true
+          description: The id of the existing attempt
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: attempt data has been successfully deleted from `Attempts`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "Deleted attempt with id: 10"
