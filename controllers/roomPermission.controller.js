@@ -1,6 +1,6 @@
 import model from "../models/RoomPermissions.js";
 
-const FILLABLES = ["user_id", "room_id", "score"];
+const FILLABLES = ["user_id", "room_id"];
 
 export default {
     index: async function(req, res, next) {
