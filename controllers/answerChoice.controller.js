@@ -22,6 +22,14 @@ export default {
     },
 
     store: async function(req, res, next) {
+        Object.keys(req.body).forEach((key) => {
+            if(!FILLABLES.includes(key)) {delete req.body[key]}
+        })
+
+        if(Object.keys(req.body).length != FILLABLES.length) {
+            return next({code: "insufficient_data", reason: "No data to process"})
+        }
+
         const data = [FILLABLES, FILLABLES.map(key => req.body[key]) ]
         await model.store(data)
             .then(result => res.send({ msg: `AnswerChoice created with id:${result}`}))
