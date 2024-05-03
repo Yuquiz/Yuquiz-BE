@@ -1,0 +1,460 @@
+openapi: 3.0.0
+info:
+  title: Quizin API
+  description: An API for simple Quiz Application
+  version: 0.1.9
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+paths:
+  /:
+    get:
+      tags:
+        - app
+      summary: API's landing page
+      description: Displays a message to tell that this server is good to go
+      responses:
+        '200':    # status code
+          description: A simple message
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                      example: Welcome to Quizin!
+
+  /api-docs:
+    get:
+      tags:
+        - app
+      summary: API's documentation page
+      description: Displays documentation of the API
+      responses:
+        '200':    # status code
+          description: >
+            Displays documentation of the API such as what the parameters or request body 
+            the server expects you to send
+          content: text/html
+
+  /app/leaderboard/{quizId}:
+      get:
+        tags:
+          - app
+        summary: Displays the best attempts of a Quiz ranked from the best.
+        description: >
+          Displays the best attempts on Quiz with id of `quizId`.  Only 
+          the user's best attempt is considered during leaderboard generation.
+        parameters:
+          - in: path
+            name: quizId
+            type: integer
+            required: true
+            description: The id of the existing Quiz
+        responses:
+          '200':
+            description: Leaderboard for the quiz successfully fetched
+            content:
+              application/json:
+                schema:
+                    type: object
+                    properties:
+                      msg: 
+                        type: string
+                      data: 
+                        type: integer
+                example: 
+                  msg: "Best attempt fetch success"
+                  data: [
+                    {
+                      id: 12,
+                      user_id: 12,
+                      quiz_id: 6,
+                      score: 10,
+                      username: jojon5,
+                      name: jojon5,
+                      password: "~",
+                      role: "~",
+                    },
+                    {
+                      id: 13,
+                      user_id: 13,
+                      quiz_id: 6,
+                      score: 10,
+                      username: jeremy6,
+                      name: Jeremy,
+                      password: "~",
+                      role: "~",
+                    }
+                  ]
+
+
+  /app/dashboard:
+      get:
+        tags:
+          - app
+        summary: Displays nonprofile informations about user
+        description: >
+          Displays informations such as quiz that has been done by user along
+          with its simple statistics
+        security:
+          - bearerAuth: []
+        responses:
+          '200':
+            description: Leaderboard for the quiz successfully fetched
+            content:
+              application/json:
+                schema:
+                    type: object
+                    properties:
+                      msg: 
+                        type: string
+                      data: 
+                        type: array
+                example: 
+                  msg: "Best attempt fetch success"
+                  data: [
+                    {
+                      id: 12,
+                      user_id: 12,
+                      quiz_id: 6,
+                      score: 10,
+                      username: jojon5,
+                      name: jojon5,
+                      password: "~",
+                      role: "~",
+                    },
+                    {
+                      id: 13,
+                      user_id: 13,
+                      quiz_id: 6,
+                      score: 10,
+                      username: jeremy6,
+                      name: Jeremy,
+                      password: "~",
+                      role: "~",
+                    }
+                  ]
+
+
+  /app/profile:
+      get:
+        tags:
+          - app
+        summary: Displays the profile of logged user
+        description: >
+          Displays the logged user's information A valid JWT token is needed
+        security:
+          - bearerAuth: []
+        responses:
+          '200':
+            description: Information of logged user
+            content:
+              application/json:
+                schema:
+                    type: object
+                    properties:
+                      msg: 
+                        type: string
+                      info: 
+                        type: object
+                        properties:
+                          id: int
+                          username: string
+                          name: string
+                          password: string
+                          role: string
+                example: 
+                  msg: "Hello, Jeremy (U#13)"
+                  info: {
+                    "info": {
+                      "id": 13,
+                      "username": "jeremy6",
+                      "name": "Jeremy",
+                      "password": "$2b$10$TMBpozM1pGgi6KKHp.hQYeSeODr/gNPbqwb37rzi0ZvOhmRDbiI3.",
+                      "role": "user",
+                    },
+                  }
+
+
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Create an account
+      description: Create one instance of `Users` with request body as its credentials
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: 
+                  type: string
+                username: 
+                  type: string
+                password: 
+                  type: string
+              example:
+                name: july
+                username: july
+                password: july
+      responses:
+        '200':    # status code
+          description: A message and a JWT token
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  msg: string
+                  authorization: string
+              example:
+                msg: Account registered. Hello july (U#24)!
+                authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzE0Njk0MTU4LCJleHAiOjE3MTQ2OTU5NTh9._wQQOWQi4AEoZP3BpgaoPN8fdYMNd1K1dCA3Mf1eOsQ
+
+
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login to existing user
+      description: Login to existing user to retrieve a JWT token you could use throughout this API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: 
+                  type: string
+                password: 
+                  type: string
+              example:
+                username: july
+                password: july
+      responses:
+        '200':    # status code
+          description: A message and a JWT token
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties: 
+                  msg: string
+                  authorization: string
+              example:
+                msg: Hello july (U#24)!
+                authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzE0Njk2ODkxLCJleHAiOjE3MTQ2OTg2OTF9.ollvG0DbNTZK97unyXBmp4XiM9oq-iqWsS40Ennnqag
+
+  /user:
+    get:
+      tags:
+        - Users
+      summary: Returns the data of all users.
+      description: > 
+        Returns all of `Users` data. 
+        You need a token and your role must be in `["Superadmin", "Admin"]`
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: A JSON array of Users' data
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                    data: 
+                      type: array
+              example: 
+                msg: "User data fetch success"
+                data: [
+                  {
+                    "id": 10,
+                    "username": "jeremiah",
+                    "name": "Jeremiah",
+                    "password": "$2a$12$.R3TWIGZI0ZvOSUdW.jtCuv1BLlrTJPjhDR6ZSPZSMS3OxNsfrq16",
+                    "role": "admin",
+                  },
+                  {
+                    "id": 11,
+                    "username": "jennifer",
+                    "name": "Jennifer",
+                    "password": "$2a$12$0sKZ8TdJ.qdZ1cfaFFJsIutcWrCAC9RZ/B1BeR3dqLWqubUPiRc7u",
+                    "role": "admin",
+                  },
+                  {
+                    "id": 12,
+                    "username": "jojon5",
+                    "name": "jojon5",
+                    "password": "$2b$10$k4px.jl6EylpJyWF4OuU9u4wOfUesp9W.NEvdHWqlf7UER0ku7a8S",
+                    "role": "user",
+                  },
+                ]
+    post:
+      tags:
+        - Users
+      summary: Creates an instance of `Users` in database
+      description: >
+        Creates a record in `Users` with request body as its data. 
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: 
+                  type: string
+                username: 
+                  type: string
+                password: 
+                  type: string
+              example:
+                name: july
+                username: july
+                password: july
+      responses:
+        '200':    # status code
+          description: User data has been successfully inserted to `Users`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "User created with id:26"
+
+
+  /user/{userId}:
+    get:
+      tags:
+        - Users
+      summary: Returns the data of a user
+      description: > 
+        Returns the data of user with id of `userId`. You need to be logged in to 
+        your account. If your role is in `["Superadmin", "Admin"]`, then you can 
+        bypass this restriction
+      parameters:
+        - in: path
+          name: userId
+          type: integer
+          required: true
+          description: The id of the existing User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: User data with id of `userId`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+                    data:
+                      type: object
+                      properties:
+                        id: 
+                          type: integer
+                        username:
+                          type: string
+                        name:
+                          type: string
+                        password: 
+                          type: string
+                        role: 
+                          type: string
+              example:  
+                msg: "User data fetch success"
+                data: {
+                  "data": {
+                    "id": 10,
+                    "username": "jeremiah",
+                    "name": "Jeremiah",
+                    "password": "$2a$12$.R3TWIGZI0ZvOSUdW.jtCuv1BLlrTJPjhDR6ZSPZSMS3OxNsfrq16",
+                    "role": "admin",
+                  }
+                }
+    put:
+      tags:
+        - Users
+      summary: Edits user data with `id` of `userId`
+      description: > 
+        Updates user data with `id` of `userId`.  Your role must be "Superadmin"
+      parameters:
+        - in: path
+          name: userId
+          type: integer
+          required: true
+          description: The id of the existing User
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: 
+                  type: string
+                username: 
+                  type: string
+                password: 
+                  type: string
+              example:
+                name: july
+                username: july
+                password: july
+      responses:
+        '200':    # status code
+          description: User data has been successfully updated
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "Updated user with id: 10"
+    delete:
+      tags:
+        - Users
+      summary: Deletes user data with `id` of `userId`
+      description: > 
+        Deletes user data with `id` of `userId`.  Your role must be "Superadmin"
+      parameters:
+        - in: path
+          name: userId
+          type: integer
+          required: true
+          description: The id of the existing User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':    # status code
+          description: User data has been successfully deleted from `Users`
+          content:
+            application/json:
+              schema:
+                  type: object
+                  properties:
+                    msg: 
+                      type: string
+              example:  
+                msg: "Deleted user with id: 10"

@@ -25,7 +25,6 @@ ROUTER.use("/roomQuiz", jwtAuthWare, roomQuiz);
 
 ROUTER.use("/auth", auth);
 ROUTER.use("/app", app);
-ROUTER.use("/", (req, res) => res.send({msg: "Welcome to Quizin!"}));
 
 export default ROUTER;
 
