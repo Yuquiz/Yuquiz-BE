@@ -1,8 +1,8 @@
 {
-  "name": "sanber_w6-2_valent",
+  "name": "Quizin",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon app.js",
