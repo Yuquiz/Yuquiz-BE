@@ -47,7 +47,10 @@ export default {
         req.body["password"] = await hashPassword(req.body["password"])
         const data = [ FILLABLES, FILLABLES.map(key => req.body[key])]
         await model.store(data)
-            .then(result => res.send({ msg: `User created with id:${result}` }))
+            .then(result => res.send({ 
+                msg: `User created with id:${result}`,
+                data: result
+            }))
             .catch(err => next(err));
     },
 

@@ -32,7 +32,10 @@ export default {
 
         const data = [ FILLABLES, FILLABLES.map(key => req.body[key])]
         await model.store(data)
-            .then(result => res.send({ msg: `Question created with id:${result}` }))
+            .then(result => res.send({ 
+                msg: `Question created with id:${result}`,
+                data: result 
+            }))
             .catch(err => next(err));
     },
 
