@@ -32,7 +32,7 @@ export default {
 
         const data = [ FILLABLES, FILLABLES.map(key => req.body[key])]
         await model.store(data)
-            .then(result => res.send({ 
+            .then(result => res.status(201).send({ 
                 msg: `RoomPermission created with id:${result}`,
                 data: result
             }))
