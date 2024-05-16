@@ -1,15 +1,12 @@
-import model from "../models/Attempts.js";
+import model from "../models/AttemptAnswers.js";
 
-const FILLABLES = [
-    "user_id", "quiz_id", "score", "startTime", 
-    "endTime", "isCompleted"
-];
+const FILLABLES = [ "attempt_id", "question_id", "answer_id" ];
 
 export default {
     index: async function(req, res, next) {
         await model.getAll()
             .then(result => res.send({
-                msg: "Attempt fetch success",
+                msg: "AttemptAnswer fetch success",
                 data: result
             }))
             .catch(err => next(err));
@@ -18,7 +15,7 @@ export default {
     getOne: async function(req, res, next) {
         await model.getById(req.params.id)
             .then(result => res.send({
-                msg: "Attempt fetch success",
+                msg: "AttemptAnswer fetch success",
                 data: result
             }))
             .catch(err => next(err));
@@ -36,7 +33,7 @@ export default {
         const data = [ FILLABLES, FILLABLES.map(key => req.body[key])]
         await model.store(data)
             .then(result => res.status(201).send({ 
-                msg: `Attempt created with id:${result}`,
+                msg: `AttemptAnswer created with id:${result}`,
                 data: result
             }))
             .catch(err => next(err));
@@ -59,24 +56,6 @@ export default {
     destroy: async function(req, res, next) {
         await model.destroy(req.params.id)
             .then(result => res.send({ msg: result }))
-            .catch(err => next(err));
-    },
-
-    user: async function(req, res, next) {
-        await model.users(req.params.id)
-            .then(result => res.send({
-                msg: "User attempts on this quiz fetch success",
-                data: result
-            }))
-            .catch(err => next(err));
-    },
-
-    quiz: async function(req, res, next) {
-        await model.quizzes(req.params.id)
-            .then(result => res.send({
-                msg: "User quiz scores fetch success",
-                data: result
-            }))
             .catch(err => next(err));
     },
 }

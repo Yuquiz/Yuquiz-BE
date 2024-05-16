@@ -9,6 +9,7 @@ import auth from "./auth.route.js";
 import privateRoom from "./privateRoom.route.js";
 import roomPermission from "./roomPermission.route.js";
 import roomQuiz from "./roomQuiz.route.js";
+import attemptAnswer from "./attemptAnswer.route.js";
 import app from "./app.route.js";
 
 import jwtAuthWare from "../middlewares/jwtAuth.js";
@@ -22,6 +23,7 @@ ROUTER.use("/attempt", jwtAuthWare, attempt);
 ROUTER.use("/room", jwtAuthWare, privateRoom);
 ROUTER.use("/roomPermission", jwtAuthWare, roomPermission);
 ROUTER.use("/roomQuiz", jwtAuthWare, roomQuiz);
+ROUTER.use("/attemptAnswer", jwtAuthWare, attemptAnswer);
 
 ROUTER.use("/auth", auth);
 ROUTER.use("/app", app);
